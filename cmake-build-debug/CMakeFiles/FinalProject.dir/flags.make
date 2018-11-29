@@ -7,11 +7,11 @@ C_FLAGS = -g
 
 C_DEFINES = 
 
-C_INCLUDES = -I"/home/uguisu/CPE471/Final Project/ext/glad/include" -I/usr/include/libdrm 
+C_INCLUDES = -I"/home/john/CPE471/Final Project(git)/CSC471_Final_Project/ext/glad/include" 
 
 CXX_FLAGS =  -std=c++0x -Wall -pedantic -g  
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I"/home/uguisu/CPE471/Final Project/ext/glad/include" -I/usr/include/libdrm 
+CXX_INCLUDES = -I"/home/john/CPE471/Final Project(git)/CSC471_Final_Project/ext/glad/include" 
 

@@ -34,27 +34,27 @@ stdint.h
 inttypes.h
 -
 
-/home/uguisu/CPE471/Final Project/src/GLSL.h
+/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/GLSL.h
 glad/glad.h
 -
 string
 -
 
-/home/uguisu/CPE471/Final Project/src/MatrixStack.h
+/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/MatrixStack.h
 stack
 -
 memory
 -
 glm/glm.hpp
-/home/uguisu/CPE471/Final Project/src/glm/glm.hpp
+/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/glm/glm.hpp
 glm/vec4.hpp
-/home/uguisu/CPE471/Final Project/src/glm/vec4.hpp
+/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/glm/vec4.hpp
 glm/mat4x4.hpp
-/home/uguisu/CPE471/Final Project/src/glm/mat4x4.hpp
+/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/glm/mat4x4.hpp
 glm/gtc/matrix_transform.hpp
-/home/uguisu/CPE471/Final Project/src/glm/gtc/matrix_transform.hpp
+/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/glm/gtc/matrix_transform.hpp
 
-/home/uguisu/CPE471/Final Project/src/Program.h
+/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/Program.h
 map
 -
 string
@@ -62,7 +62,7 @@ string
 glad/glad.h
 -
 
-/home/uguisu/CPE471/Final Project/src/Shape.h
+/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/Shape.h
 string
 -
 vector
@@ -70,13 +70,13 @@ vector
 memory
 -
 
-/home/uguisu/CPE471/Final Project/src/WindowManager.h
+/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/WindowManager.h
 glad/glad.h
 -
 GLFW/glfw3.h
 -
 
-/home/uguisu/CPE471/Final Project/src/main.cpp
+/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/main.cpp
 iostream
 -
 glad/glad.h
@@ -86,25 +86,25 @@ cstdlib
 ctime
 -
 stb_image.h
-/home/uguisu/CPE471/Final Project/src/stb_image.h
+/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/stb_image.h
 GLSL.h
-/home/uguisu/CPE471/Final Project/src/GLSL.h
+/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/GLSL.h
 Program.h
-/home/uguisu/CPE471/Final Project/src/Program.h
+/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/Program.h
 MatrixStack.h
-/home/uguisu/CPE471/Final Project/src/MatrixStack.h
+/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/MatrixStack.h
 WindowManager.h
-/home/uguisu/CPE471/Final Project/src/WindowManager.h
+/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/WindowManager.h
 Shape.h
-/home/uguisu/CPE471/Final Project/src/Shape.h
+/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/Shape.h
 glm/gtc/type_ptr.hpp
 -
 glm/gtc/matrix_transform.hpp
 -
 
-/home/uguisu/CPE471/Final Project/src/stb_image.h
+/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/stb_image.h
 stb_image.h
-/home/uguisu/CPE471/Final Project/src/stb_image.h
+/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/stb_image.h
 stdio.h
 -
 stdarg.h

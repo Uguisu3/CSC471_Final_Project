@@ -120,12 +120,13 @@ public:
 
 boundingbox shapeb;
 boundingbox shipb;
-boundingbox babylon5b;
+boundingbox boxb;
 boundingbox enemyb;
 shared_ptr<Shape> shape;
 shared_ptr<Shape> ship;
 shared_ptr<Shape> babylon5;
 shared_ptr<Shape> enemy;
+shared_ptr<Shape> box;
 
 double get_last_elapsed_time()
 {
@@ -390,7 +391,12 @@ public:
         babylon5->loadMesh(resourceDirectory + "/Babylon5/Babylon+5.obj", &pathmtl,stbi_load);
         babylon5->resize();
         babylon5->init();
-        babylon5b.createbox(babylon5);
+
+        box = make_shared<Shape>();
+        box->loadMesh(resourceDirectory + "/cube.obj");
+        box->resize();
+        box->init();
+        boxb.createbox(babylon5);
 
         ship = make_shared<Shape>();
         ship->loadMesh(resourceDirectory + "/Starfury.obj");
@@ -854,7 +860,7 @@ public:
         if (obj.size() < 5) {
             obj.push_back(object(shapeb));
             obj.push_back(object(shapeb));
-            obj.push_back(object(babylon5b));
+            obj.push_back(object(boxb));
             obj.push_back(object(shipb));
             obj.push_back(object(shapeb));
 
@@ -868,8 +874,9 @@ public:
         float xang = 0.0f;
         float yang = 0.0f;
         float speed = 0.0f;
-        static vec3 pos = vec3(0, 0, -5);
-        static vec3 rot = vec3(0, 0, 0);
+       static float fxangle= 0;
+       static float fyangle = 0;
+
         if ((mycam.e == 1 && mycam.f == 1 && mycam.j == 1 && mycam.i == 1)) {
             yang = 0.0f;
             xang = 0.0f;
@@ -913,21 +920,15 @@ public:
             yang = -.15f;
             xang = -.15f;
         }
-
-        static mat4 rots = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+        fxangle += (-xang - fxangle)* .2;
+        fyangle += (-yang - fyangle)* .2;
 
         mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -.5f, -3.0f));
-        RotateY = glm::rotate(glm::mat4(1.0f), float(-yang * frametime), glm::vec3(0.0f, 1.0f, 0.0f));
-
-        mat4 RotateY2 = glm::rotate(glm::mat4(1.0f), -yang + float(M_PI), glm::vec3(0.0f, 1.0f, 0.0f));
-        RotateX = glm::rotate(glm::mat4(1.0f), float(xang * frametime), glm::vec3(1.0f, 0.0f, 0.0f));
-        mat4 RotateX2 = glm::rotate(glm::mat4(1.0f), -xang, glm::vec3(-1.0f, 0.0f, 0.0f));
-        mat4 T = glm::translate(glm::mat4(1.0f), -mycam.pos);
-        rots = RotateY * RotateX * rots;
+        mat4 RotateY2 = glm::rotate(glm::mat4(1.0f), fyangle + float(M_PI), glm::vec3(0.0f, 1.0f, 0.0f));
+        mat4 RotateX2 = glm::rotate(glm::mat4(1.0f), fxangle, glm::vec3(-1.0f, 0.0f, 0.0f));
         S = glm::scale(glm::mat4(1.0f), glm::vec3(0.25f, 0.25f, 0.25f));
         M = inverse(V) * trans * RotateY2 * RotateX2 * S;
-        //V = trans*M;
-        //send the matrices to the shaders
+
 
         glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
         glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
@@ -1001,10 +1002,16 @@ public:
         glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
         glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
         glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);
+        S = glm::scale(glm::mat4(1.0f), glm::vec3(80, 10, 10));
+        M = babM * S;
         obj[2].M1 = M;
         if (obj[2].draw) {
             babylon5->draw(prog, false);
+
         }
+
+
+
         srand(static_cast <unsigned> (time(0)));
         mat4 eneM;
         static vec3 enemyloc = vec3(rand() % 1000 - 500, rand() % 1000 - 500, rand() % 1000 - 500);
@@ -1123,8 +1130,8 @@ public:
         laserprog->bind();
         for (int i = 0; i < projectile.size(); i++) {
             mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 10.0f));
-            mat4 RotateX = glm::rotate(glm::mat4(1.0f), float(M_PI_2), glm::vec3(1.0f, 0.0f, 0.0f));
-            mat4 RotateY = glm::rotate(glm::mat4(1.0f), float(M_PI_2), glm::vec3(1.0f, 0.0f, 0.0f));
+            mat4 RotateX = glm::rotate(glm::mat4(1.0f), mycam.xangle, glm::vec3(1.0f, 0.0f, 0.0f));
+            mat4 RotateY = glm::rotate(glm::mat4(1.0f), mycam.yangle, glm::vec3(1.0f, 0.0f, 0.0f));
             M = projectile[i];
             projectile[i] *= T;
 
@@ -1149,8 +1156,8 @@ public:
         {
             for(int x = 0; x < projectile.size(); x++)
             {
-                if(obj[i].draw  && (boundingbox::collision(babylon5b,projectile[x], obj[i].bb1,obj[i].M1) ||
-                boundingbox::collision(obj[i].bb1,obj[i].M1, babylon5b,projectile[x])))
+                if(obj[i].draw  && (boundingbox::collision(boxb,projectile[x], obj[i].bb1,obj[i].M1) ||
+                boundingbox::collision(obj[i].bb1,obj[i].M1,boxb,projectile[x])))
                 {
                     obj[i].health--;
                     if(obj[i].health <= 0)

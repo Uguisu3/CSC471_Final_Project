@@ -34,19 +34,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/uguisu/Downloads/clion-2018.2.6/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /opt/clion-2018.2.4/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /home/uguisu/Downloads/clion-2018.2.6/bin/cmake/linux/bin/cmake -E remove -f
+RM = /opt/clion-2018.2.4/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/home/uguisu/CPE471/Final Project"
+CMAKE_SOURCE_DIR = "/home/john/CPE471/Final Project(git)/CSC471_Final_Project"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/home/uguisu/CPE471/Final Project/cmake-build-debug"
+CMAKE_BINARY_DIR = "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/cmake-build-debug"
 
 # Include any dependencies generated for this target.
 include CMakeFiles/FinalProject.dir/depend.make
@@ -59,94 +59,94 @@ include CMakeFiles/FinalProject.dir/flags.make
 
 CMakeFiles/FinalProject.dir/ext/glad/src/glad.c.o: CMakeFiles/FinalProject.dir/flags.make
 CMakeFiles/FinalProject.dir/ext/glad/src/glad.c.o: ../ext/glad/src/glad.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/uguisu/CPE471/Final Project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/FinalProject.dir/ext/glad/src/glad.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/FinalProject.dir/ext/glad/src/glad.c.o   -c "/home/uguisu/CPE471/Final Project/ext/glad/src/glad.c"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/john/CPE471/Final Project(git)/CSC471_Final_Project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/FinalProject.dir/ext/glad/src/glad.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/FinalProject.dir/ext/glad/src/glad.c.o   -c "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/ext/glad/src/glad.c"
 
 CMakeFiles/FinalProject.dir/ext/glad/src/glad.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/FinalProject.dir/ext/glad/src/glad.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/home/uguisu/CPE471/Final Project/ext/glad/src/glad.c" > CMakeFiles/FinalProject.dir/ext/glad/src/glad.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/ext/glad/src/glad.c" > CMakeFiles/FinalProject.dir/ext/glad/src/glad.c.i
 
 CMakeFiles/FinalProject.dir/ext/glad/src/glad.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/FinalProject.dir/ext/glad/src/glad.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/home/uguisu/CPE471/Final Project/ext/glad/src/glad.c" -o CMakeFiles/FinalProject.dir/ext/glad/src/glad.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/ext/glad/src/glad.c" -o CMakeFiles/FinalProject.dir/ext/glad/src/glad.c.s
 
 CMakeFiles/FinalProject.dir/src/GLSL.cpp.o: CMakeFiles/FinalProject.dir/flags.make
 CMakeFiles/FinalProject.dir/src/GLSL.cpp.o: ../src/GLSL.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/uguisu/CPE471/Final Project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/FinalProject.dir/src/GLSL.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/FinalProject.dir/src/GLSL.cpp.o -c "/home/uguisu/CPE471/Final Project/src/GLSL.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/john/CPE471/Final Project(git)/CSC471_Final_Project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/FinalProject.dir/src/GLSL.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/FinalProject.dir/src/GLSL.cpp.o -c "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/GLSL.cpp"
 
 CMakeFiles/FinalProject.dir/src/GLSL.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/FinalProject.dir/src/GLSL.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/uguisu/CPE471/Final Project/src/GLSL.cpp" > CMakeFiles/FinalProject.dir/src/GLSL.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/GLSL.cpp" > CMakeFiles/FinalProject.dir/src/GLSL.cpp.i
 
 CMakeFiles/FinalProject.dir/src/GLSL.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/FinalProject.dir/src/GLSL.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/uguisu/CPE471/Final Project/src/GLSL.cpp" -o CMakeFiles/FinalProject.dir/src/GLSL.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/GLSL.cpp" -o CMakeFiles/FinalProject.dir/src/GLSL.cpp.s
 
 CMakeFiles/FinalProject.dir/src/MatrixStack.cpp.o: CMakeFiles/FinalProject.dir/flags.make
 CMakeFiles/FinalProject.dir/src/MatrixStack.cpp.o: ../src/MatrixStack.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/uguisu/CPE471/Final Project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/FinalProject.dir/src/MatrixStack.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/FinalProject.dir/src/MatrixStack.cpp.o -c "/home/uguisu/CPE471/Final Project/src/MatrixStack.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/john/CPE471/Final Project(git)/CSC471_Final_Project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/FinalProject.dir/src/MatrixStack.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/FinalProject.dir/src/MatrixStack.cpp.o -c "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/MatrixStack.cpp"
 
 CMakeFiles/FinalProject.dir/src/MatrixStack.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/FinalProject.dir/src/MatrixStack.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/uguisu/CPE471/Final Project/src/MatrixStack.cpp" > CMakeFiles/FinalProject.dir/src/MatrixStack.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/MatrixStack.cpp" > CMakeFiles/FinalProject.dir/src/MatrixStack.cpp.i
 
 CMakeFiles/FinalProject.dir/src/MatrixStack.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/FinalProject.dir/src/MatrixStack.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/uguisu/CPE471/Final Project/src/MatrixStack.cpp" -o CMakeFiles/FinalProject.dir/src/MatrixStack.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/MatrixStack.cpp" -o CMakeFiles/FinalProject.dir/src/MatrixStack.cpp.s
 
 CMakeFiles/FinalProject.dir/src/Program.cpp.o: CMakeFiles/FinalProject.dir/flags.make
 CMakeFiles/FinalProject.dir/src/Program.cpp.o: ../src/Program.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/uguisu/CPE471/Final Project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/FinalProject.dir/src/Program.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/FinalProject.dir/src/Program.cpp.o -c "/home/uguisu/CPE471/Final Project/src/Program.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/john/CPE471/Final Project(git)/CSC471_Final_Project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/FinalProject.dir/src/Program.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/FinalProject.dir/src/Program.cpp.o -c "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/Program.cpp"
 
 CMakeFiles/FinalProject.dir/src/Program.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/FinalProject.dir/src/Program.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/uguisu/CPE471/Final Project/src/Program.cpp" > CMakeFiles/FinalProject.dir/src/Program.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/Program.cpp" > CMakeFiles/FinalProject.dir/src/Program.cpp.i
 
 CMakeFiles/FinalProject.dir/src/Program.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/FinalProject.dir/src/Program.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/uguisu/CPE471/Final Project/src/Program.cpp" -o CMakeFiles/FinalProject.dir/src/Program.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/Program.cpp" -o CMakeFiles/FinalProject.dir/src/Program.cpp.s
 
 CMakeFiles/FinalProject.dir/src/Shape.cpp.o: CMakeFiles/FinalProject.dir/flags.make
 CMakeFiles/FinalProject.dir/src/Shape.cpp.o: ../src/Shape.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/uguisu/CPE471/Final Project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/FinalProject.dir/src/Shape.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/FinalProject.dir/src/Shape.cpp.o -c "/home/uguisu/CPE471/Final Project/src/Shape.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/john/CPE471/Final Project(git)/CSC471_Final_Project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/FinalProject.dir/src/Shape.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/FinalProject.dir/src/Shape.cpp.o -c "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/Shape.cpp"
 
 CMakeFiles/FinalProject.dir/src/Shape.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/FinalProject.dir/src/Shape.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/uguisu/CPE471/Final Project/src/Shape.cpp" > CMakeFiles/FinalProject.dir/src/Shape.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/Shape.cpp" > CMakeFiles/FinalProject.dir/src/Shape.cpp.i
 
 CMakeFiles/FinalProject.dir/src/Shape.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/FinalProject.dir/src/Shape.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/uguisu/CPE471/Final Project/src/Shape.cpp" -o CMakeFiles/FinalProject.dir/src/Shape.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/Shape.cpp" -o CMakeFiles/FinalProject.dir/src/Shape.cpp.s
 
 CMakeFiles/FinalProject.dir/src/WindowManager.cpp.o: CMakeFiles/FinalProject.dir/flags.make
 CMakeFiles/FinalProject.dir/src/WindowManager.cpp.o: ../src/WindowManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/uguisu/CPE471/Final Project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/FinalProject.dir/src/WindowManager.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/FinalProject.dir/src/WindowManager.cpp.o -c "/home/uguisu/CPE471/Final Project/src/WindowManager.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/john/CPE471/Final Project(git)/CSC471_Final_Project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/FinalProject.dir/src/WindowManager.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/FinalProject.dir/src/WindowManager.cpp.o -c "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/WindowManager.cpp"
 
 CMakeFiles/FinalProject.dir/src/WindowManager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/FinalProject.dir/src/WindowManager.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/uguisu/CPE471/Final Project/src/WindowManager.cpp" > CMakeFiles/FinalProject.dir/src/WindowManager.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/WindowManager.cpp" > CMakeFiles/FinalProject.dir/src/WindowManager.cpp.i
 
 CMakeFiles/FinalProject.dir/src/WindowManager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/FinalProject.dir/src/WindowManager.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/uguisu/CPE471/Final Project/src/WindowManager.cpp" -o CMakeFiles/FinalProject.dir/src/WindowManager.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/WindowManager.cpp" -o CMakeFiles/FinalProject.dir/src/WindowManager.cpp.s
 
 CMakeFiles/FinalProject.dir/src/main.cpp.o: CMakeFiles/FinalProject.dir/flags.make
 CMakeFiles/FinalProject.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/uguisu/CPE471/Final Project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/FinalProject.dir/src/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/FinalProject.dir/src/main.cpp.o -c "/home/uguisu/CPE471/Final Project/src/main.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/john/CPE471/Final Project(git)/CSC471_Final_Project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/FinalProject.dir/src/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/FinalProject.dir/src/main.cpp.o -c "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/main.cpp"
 
 CMakeFiles/FinalProject.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/FinalProject.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/uguisu/CPE471/Final Project/src/main.cpp" > CMakeFiles/FinalProject.dir/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/main.cpp" > CMakeFiles/FinalProject.dir/src/main.cpp.i
 
 CMakeFiles/FinalProject.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/FinalProject.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/uguisu/CPE471/Final Project/src/main.cpp" -o CMakeFiles/FinalProject.dir/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/main.cpp" -o CMakeFiles/FinalProject.dir/src/main.cpp.s
 
 # Object files for target FinalProject
 FinalProject_OBJECTS = \
@@ -170,7 +170,7 @@ FinalProject: CMakeFiles/FinalProject.dir/src/WindowManager.cpp.o
 FinalProject: CMakeFiles/FinalProject.dir/src/main.cpp.o
 FinalProject: CMakeFiles/FinalProject.dir/build.make
 FinalProject: CMakeFiles/FinalProject.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/uguisu/CPE471/Final Project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable FinalProject"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/john/CPE471/Final Project(git)/CSC471_Final_Project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable FinalProject"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/FinalProject.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -183,6 +183,6 @@ CMakeFiles/FinalProject.dir/clean:
 .PHONY : CMakeFiles/FinalProject.dir/clean
 
 CMakeFiles/FinalProject.dir/depend:
-	cd "/home/uguisu/CPE471/Final Project/cmake-build-debug" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/home/uguisu/CPE471/Final Project" "/home/uguisu/CPE471/Final Project" "/home/uguisu/CPE471/Final Project/cmake-build-debug" "/home/uguisu/CPE471/Final Project/cmake-build-debug" "/home/uguisu/CPE471/Final Project/cmake-build-debug/CMakeFiles/FinalProject.dir/DependInfo.cmake" --color=$(COLOR)
+	cd "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/cmake-build-debug" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/home/john/CPE471/Final Project(git)/CSC471_Final_Project" "/home/john/CPE471/Final Project(git)/CSC471_Final_Project" "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/cmake-build-debug" "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/cmake-build-debug" "/home/john/CPE471/Final Project(git)/CSC471_Final_Project/cmake-build-debug/CMakeFiles/FinalProject.dir/DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/FinalProject.dir/depend
 

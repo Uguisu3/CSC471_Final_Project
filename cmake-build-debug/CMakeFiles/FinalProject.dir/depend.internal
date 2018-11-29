@@ -4,42 +4,42 @@
 CMakeFiles/FinalProject.dir/ext/glad/src/glad.c.o
  ../ext/glad/include/KHR/khrplatform.h
  ../ext/glad/include/glad/glad.h
- /home/uguisu/CPE471/Final Project/ext/glad/src/glad.c
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/ext/glad/src/glad.c
 CMakeFiles/FinalProject.dir/src/GLSL.cpp.o
  ../ext/glad/include/KHR/khrplatform.h
  ../ext/glad/include/glad/glad.h
- /home/uguisu/CPE471/Final Project/src/GLSL.cpp
- /home/uguisu/CPE471/Final Project/src/GLSL.h
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/GLSL.cpp
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/GLSL.h
 CMakeFiles/FinalProject.dir/src/MatrixStack.cpp.o
- /home/uguisu/CPE471/Final Project/src/MatrixStack.cpp
- /home/uguisu/CPE471/Final Project/src/MatrixStack.h
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/MatrixStack.cpp
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/MatrixStack.h
 CMakeFiles/FinalProject.dir/src/Program.cpp.o
  ../ext/glad/include/KHR/khrplatform.h
  ../ext/glad/include/glad/glad.h
- /home/uguisu/CPE471/Final Project/src/GLSL.h
- /home/uguisu/CPE471/Final Project/src/Program.cpp
- /home/uguisu/CPE471/Final Project/src/Program.h
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/GLSL.h
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/Program.cpp
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/Program.h
 CMakeFiles/FinalProject.dir/src/Shape.cpp.o
  ../ext/glad/include/KHR/khrplatform.h
  ../ext/glad/include/glad/glad.h
- /home/uguisu/CPE471/Final Project/src/GLSL.h
- /home/uguisu/CPE471/Final Project/src/Program.h
- /home/uguisu/CPE471/Final Project/src/Shape.cpp
- /home/uguisu/CPE471/Final Project/src/Shape.h
- /home/uguisu/CPE471/Final Project/src/tiny_obj_loader.h
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/GLSL.h
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/Program.h
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/Shape.cpp
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/Shape.h
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/tiny_obj_loader.h
 CMakeFiles/FinalProject.dir/src/WindowManager.cpp.o
  ../ext/glad/include/KHR/khrplatform.h
  ../ext/glad/include/glad/glad.h
- /home/uguisu/CPE471/Final Project/src/GLSL.h
- /home/uguisu/CPE471/Final Project/src/WindowManager.cpp
- /home/uguisu/CPE471/Final Project/src/WindowManager.h
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/GLSL.h
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/WindowManager.cpp
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/WindowManager.h
 CMakeFiles/FinalProject.dir/src/main.cpp.o
  ../ext/glad/include/KHR/khrplatform.h
  ../ext/glad/include/glad/glad.h
- /home/uguisu/CPE471/Final Project/src/GLSL.h
- /home/uguisu/CPE471/Final Project/src/MatrixStack.h
- /home/uguisu/CPE471/Final Project/src/Program.h
- /home/uguisu/CPE471/Final Project/src/Shape.h
- /home/uguisu/CPE471/Final Project/src/WindowManager.h
- /home/uguisu/CPE471/Final Project/src/main.cpp
- /home/uguisu/CPE471/Final Project/src/stb_image.h
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/GLSL.h
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/MatrixStack.h
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/Program.h
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/Shape.h
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/WindowManager.h
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/main.cpp
+ /home/john/CPE471/Final Project(git)/CSC471_Final_Project/src/stb_image.h
