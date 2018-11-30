@@ -372,8 +372,7 @@ public:
 	{
 		//get the window size - may be different then pixels for retina
 		int width, height;
-		glfwGetFramebufferSize(window, &width, &height);
-		glViewport(0, 0, width, height);
+		glfwGetFramebufferSize(window, &width, &height);		glViewport(0, 0, width, height);
 	}
 
 	/*Note that any gl calls must always happen after a GL state is initialized */
