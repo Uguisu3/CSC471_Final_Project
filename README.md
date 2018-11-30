@@ -1,4 +1,4 @@
-Lab 3 - Hello Triangle and Installing prerequisite software
+Final Project -Installing prerequisite software
 ========================================
 
 Lab machines
