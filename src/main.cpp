@@ -217,13 +217,13 @@ public:
         }
         else if(e == 1 && j == 1 )
         {
-            //speed = .35*ftime;
+            speed = .35*ftime;
 
 
         }
         else if(f == 1 && i == 1 )
         {
-            //speed = .35*ftime;
+            speed = .35*ftime;
 
         }
         else if(e == 1 && i == 1 )
@@ -309,6 +309,7 @@ public:
 	GLuint Texture6;
 	GLuint Texture7;
     GLuint Texture8;
+    GLuint Texture9;
 
 	int space = 0;
 
@@ -613,7 +614,7 @@ public:
         glUniform1i(Tex5Location, 0);
 
 
-        str1 = resourceDirectory + "/Laser.png";
+        str1 = resourceDirectory + "/laser.png";
         strcpy(filepath, str1.c_str());
         data = stbi_load(filepath, &width, &height, &channels, 4);
         glGenTextures(1, &Texture7);
@@ -626,7 +627,7 @@ public:
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
 
-        GLuint Tex7Location = glGetUniformLocation(cloudprog->pid, "tex");
+        GLuint Tex7Location = glGetUniformLocation(laserprog->pid, "tex");
         // Then bind the uniform samplers to texture units:
         glUseProgram(laserprog->pid);
         glUniform1i(Tex7Location, 0);
@@ -645,10 +646,29 @@ public:
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
 
-        GLuint Tex8Location = glGetUniformLocation(cloudprog->pid, "tex");
+        GLuint Tex8Location = glGetUniformLocation(healthbarprog->pid, "tex");
+        // Then bind the uniform samplers to texture units:
+        glUseProgram(healthbarprog->pid);
+        glUniform1i(Tex8Location, 0);
+
+        str1 = resourceDirectory + "/Enginep.png";
+        strcpy(filepath, str1.c_str());
+        data = stbi_load(filepath, &width, &height, &channels, 4);
+        glGenTextures(1, &Texture9);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, Texture9);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        GLuint Tex9Location = glGetUniformLocation(laserprog->pid, "tex");
         // Then bind the uniform samplers to texture units:
         glUseProgram(laserprog->pid);
-        glUniform1i(Tex8Location, 0);
+        glUniform1i(Tex9Location, 0);
+
 
 
 
@@ -946,7 +966,6 @@ public:
         }
         shipprog->unbind();
 
-
         // Draw the box using GLSL.
         prog->bind();
         RotateX = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(1.0f, 0.0f, 0.0f));
@@ -1014,7 +1033,6 @@ public:
 
         srand(static_cast <unsigned> (time(0)));
         mat4 eneM;
-        static vec3 enemyloc = vec3(rand() % 1000 - 500, rand() % 1000 - 500, rand() % 1000 - 500);
         for(int i = 5; i< obj.size(); i++)
         {
             TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
@@ -1125,11 +1143,77 @@ public:
 
         }
 
+
+
         healthbarprog->unbind();
 
         laserprog->bind();
+        if(mycam.e == 1)
+        {
+            S = glm::scale(glm::mat4(1.0f), glm::vec3(.4, .4, .4));
+            mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(0.71f, 0.30f, -0.7f));
+            M = obj[3].M1 * Trans * S;
+            glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
+            glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
+            glUniformMatrix4fv(laserprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+            glUniform3fv(laserprog->getUniform("campos"), 1, &mycam.pos[0]);
+            glBindVertexArray(VertexArrayID);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferIDBox);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, Texture9);
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void *) 0);
+        }
+
+        if(mycam.f == 1)
+        {
+            S = glm::scale(glm::mat4(1.0f), glm::vec3(.4, .4, .4));
+            mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(0.71f, -0.30f, -0.7f));
+            M = obj[3].M1 * Trans * S;
+            glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
+            glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
+            glUniformMatrix4fv(laserprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+            glUniform3fv(laserprog->getUniform("campos"), 1, &mycam.pos[0]);
+            glBindVertexArray(VertexArrayID);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferIDBox);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, Texture9);
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void *) 0);
+        }
+        if(mycam.j == 1)
+        {
+            S = glm::scale(glm::mat4(1.0f), glm::vec3(.4, .4, .4));
+            mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(-0.71f, -0.30f, -0.7f));
+            M = obj[3].M1 * Trans * S;
+            glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
+            glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
+            glUniformMatrix4fv(laserprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+            glUniform3fv(laserprog->getUniform("campos"), 1, &mycam.pos[0]);
+            glBindVertexArray(VertexArrayID);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferIDBox);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, Texture9);
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void *) 0);
+        }
+
+        if(mycam.i == 1)
+        {
+            S = glm::scale(glm::mat4(1.0f), glm::vec3(.4, .4, .4));
+            mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(-0.71f, 0.30f, -0.7f));
+            M = obj[3].M1 * Trans * S;
+            glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
+            glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
+            glUniformMatrix4fv(laserprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+            glUniform3fv(laserprog->getUniform("campos"), 1, &mycam.pos[0]);
+            glBindVertexArray(VertexArrayID);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferIDBox);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, Texture9);
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void *) 0);
+        }
+
+
         for (int i = 0; i < projectile.size(); i++) {
-            mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 10.0f));
+            mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 8.0f));
             mat4 RotateX = glm::rotate(glm::mat4(1.0f), mycam.xangle, glm::vec3(1.0f, 0.0f, 0.0f));
             mat4 RotateY = glm::rotate(glm::mat4(1.0f), mycam.yangle, glm::vec3(1.0f, 0.0f, 0.0f));
             M = projectile[i];
@@ -1184,7 +1268,7 @@ public:
 
             }
         }
-        if(count%10 == 0 && obj.size() < 6)
+        if(count%30 == 0 && obj.size() < 6)
         {
 
             obj.push_back(object(enemyb));
