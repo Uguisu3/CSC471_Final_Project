@@ -23,7 +23,7 @@ vec3 cd = normalize(vertex_pos - campos);
 vec3 h = normalize(cd+ld);
 float spec = dot(n,h);
 spec = clamp(spec,0,1);
-spec = pow(spec,40);
+spec = pow(spec,30);
 color += vec4(1,1,1,1)*spec*3;
 color.a = 1;
 

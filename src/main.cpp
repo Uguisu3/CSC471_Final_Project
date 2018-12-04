@@ -181,84 +181,84 @@ public:
 		}
 		else if(e == 1 && f == 1 && j==1 )
 		{
-			//speed = .375*ftime;
+			speed = .175*ftime;
             yangle = .45*ftime;
             xangle = -.45*ftime;
 		}
         else if(e == 1 && f == 1 && i==1 )
         {
-            //speed = .375*ftime;
+            speed = .175*ftime;
             yangle = .45*ftime;
             xangle = .45*ftime;
         }
         else if(e == 1 && j == 1 && i==1 )
         {
-            //speed = .375*ftime;
+            speed = .175*ftime;
             yangle = -.45*ftime;
             xangle = .45*ftime;
         }
         else if(f == 1 && j == 1 && i==1 )
         {
-            //speed = .375*ftime;
+            speed = .175*ftime;
             yangle = -.45*ftime;
             xangle = -.45*ftime;
         }
         else if(e == 1 && f== 1 )
         {
-            //speed = .35*ftime;
+            speed = .15*ftime;
             yangle = .7*ftime;
 
         }
         else if(j == 1 && i == 1 )
         {
-            //speed = .35*ftime;
+            speed = .15*ftime;
             yangle = -.7*ftime;
 
         }
         else if(e == 1 && j == 1 )
         {
-            speed = .35*ftime;
+            speed = .15*ftime;
 
 
         }
         else if(f == 1 && i == 1 )
         {
-            speed = .35*ftime;
+            speed = .15*ftime;
 
         }
         else if(e == 1 && i == 1 )
         {
-            //speed = .35*ftime;
+            speed = .15*ftime;
             xangle = .7*ftime;
 
         }
         else if(j == 1 && f == 1 )
         {
-           // speed = .35*ftime;
+            speed = .15*ftime;
             xangle = -.7*ftime;
 
         }
         else if(f==1 )
         {
-            //speed = .325*ftime;
+            speed = .125*ftime;
             yangle = .35*ftime;
             xangle = -.35*ftime;
         }
         else if(e == 1 )
         {
-            //speed = .325*ftime;
+            speed = .125*ftime;
             yangle = .35*ftime;
             xangle = .35*ftime;
         }
         else if(i==1 )
         {
-            //speed = .325*ftime;
+            speed = .125*ftime;
             yangle = -.35*ftime;
             xangle = .35*ftime;
         }
         else if(j == 1  )
         {
-            //speed = .325*ftime;
+            speed = .125*ftime;
             yangle = -.35*ftime;
             xangle = -.35*ftime;
         }
@@ -485,12 +485,23 @@ public:
 
 		int width, height, channels;
 		char filepath[1000];
-
+        string str = resourceDirectory + "/b5hull.jpg";
+        strcpy(filepath, str.c_str());
+        unsigned char*data = stbi_load(filepath, &width, &height, &channels, 4);
+        glGenTextures(1, &Texture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, Texture);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
 
 		//texture 2
-		string str = resourceDirectory + "/Flat_Map_Of_Makemake_2K.jpg";
+		 str = resourceDirectory + "/Flat_Map_Of_Makemake_2K.jpg";
 		strcpy(filepath, str.c_str());
-		unsigned char*data = stbi_load(filepath, &width, &height, &channels, 4);
+		data = stbi_load(filepath, &width, &height, &channels, 4);
 		glGenTextures(1, &Texture2);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, Texture2);
@@ -883,8 +894,8 @@ public:
             yang = -.15f;
             xang = -.15f;
         }
-        fxangle += (-xang - fxangle)* .2;
-        fyangle += (-yang - fyangle)* .2;
+        fxangle += (-xang - fxangle)* .1;
+        fyangle += (-yang - fyangle)* .1;
 
         mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -.5f, -3.0f));
         mat4 RotateY2 = glm::rotate(glm::mat4(1.0f), fyangle + float(M_PI), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -898,7 +909,7 @@ public:
         glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
         glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, Texture5);
+        glBindTexture(GL_TEXTURE_2D, Texture);
         obj[3].M1 = M;
         if (obj[3].draw) {
             ship->draw(shipprog, false);
@@ -1181,7 +1192,7 @@ public:
         }
         for(int i = 5; i< obj.size(); i++)
         {
-            if (count % 10 == 0) {
+            if (count % 1000 == 0) {
                 mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));
                 mat4 R = glm::rotate(glm::mat4(1.0f), float(M_PI), glm::vec3(0.0f, 1.0f, 0.0f));
                 projectile.push_back(obj[i].M1 * T * R);
