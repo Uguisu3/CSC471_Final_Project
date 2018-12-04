@@ -396,7 +396,7 @@ public:
         box->loadMesh(resourceDirectory + "/cube.obj");
         box->resize();
         box->init();
-        boxb.createbox(babylon5);
+        boxb.createbox(box);
 
         ship = make_shared<Shape>();
         ship->loadMesh(resourceDirectory + "/Starfury.obj");
@@ -486,24 +486,11 @@ public:
 		int width, height, channels;
 		char filepath[1000];
 
-		//texture 1
-		string str = resourceDirectory + "/2k_earth_specular_map.jpg";
-		strcpy(filepath, str.c_str());
-		unsigned char* data = stbi_load(filepath, &width, &height, &channels, 4);
-		glGenTextures(1, &Texture);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, Texture);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
 
 		//texture 2
-		str = resourceDirectory + "/2k_earth_daymap.jpg";
+		string str = resourceDirectory + "/Flat_Map_Of_Makemake_2K.jpg";
 		strcpy(filepath, str.c_str());
-		data = stbi_load(filepath, &width, &height, &channels, 4);
+		unsigned char*data = stbi_load(filepath, &width, &height, &channels, 4);
 		glGenTextures(1, &Texture2);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, Texture2);
@@ -513,27 +500,6 @@ public:
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
-
-
-        //texture 3
-        str = resourceDirectory + "/2k_earth_nightmap.jpg";
-        strcpy(filepath, str.c_str());
-        data = stbi_load(filepath, &width, &height, &channels, 4);
-        glGenTextures(1, &Texture6);
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, Texture6);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-
-
-
-
-
-
 
         //[TWOTEXTURES]
 		//set the 2 textures to the correct samplers in the fragment shader:
@@ -569,29 +535,7 @@ public:
 		glUniform1i(Tex3Location, 0);
 
 
-        str1 = resourceDirectory + "/2k_earth_clouds.jpg";
-        strcpy(filepath, str1.c_str());
-        data = stbi_load(filepath, &width, &height, &channels, 4);
-        glGenTextures(1, &Texture4);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, Texture4);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-
-        //[TWOTEXTURES]
-        //set the 2 textures to the correct samplers in the fragment shader:
-        //GLuint Tex1Location = glGetUniformLocation(prog->pid, "tex");//tex, tex2... sampler in the fragment shader
-        GLuint Tex4Location = glGetUniformLocation(cloudprog->pid, "tex");
-        // Then bind the uniform samplers to texture units:
-        glUseProgram(cloudprog->pid);
-        glUniform1i(Tex4Location, 0);
-
-
-        str1 = resourceDirectory + "/shiphull.jpg";
+        str1 = resourceDirectory + "/shadow.png";
         strcpy(filepath, str1.c_str());
         data = stbi_load(filepath, &width, &height, &channels, 4);
         glGenTextures(1, &Texture5);
@@ -955,14 +899,43 @@ public:
         glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, Texture5);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, Texture5);
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, Texture5);
         obj[3].M1 = M;
         if (obj[3].draw) {
             ship->draw(shipprog, false);
         }
+
+        srand(static_cast <unsigned> (time(0)));
+        mat4 eneM;
+        for(int i = 5; i< obj.size(); i++)
+        {
+            TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+            if (distance(vec3(obj[5].M1[3]), vec3(obj[2].M1[3])) > 100) {
+                TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+            }
+
+            RotateY = glm::rotate(glm::mat4(1.0f), float(M_PI), glm::vec3(0.0f, 1.0f, 0.0f));
+            S = glm::scale(glm::mat4(1.0f), glm::vec3(8, 8, 8));
+            mat4 Vx = transpose(V);
+            mat4 Vi = lookat(vec3(obj[2].M1[3]), vec3(obj[i].M1[3]));
+            eneM = Vi * TransZ * RotateY;
+            M = Vi * TransZ * RotateY * S;
+            //enemyloc = vec3(M[3]);
+            //send the matrices to the shaders
+            glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
+            glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
+            glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+            glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, Texture5);
+            obj[5].M1 = M;
+            if (obj[5].draw) {
+                enemy->draw(prog, false);
+            } else {
+                obj.erase(obj.begin() +5);
+            }
+        }
+
+
         shipprog->unbind();
 
         // Draw the box using GLSL.
@@ -1030,63 +1003,11 @@ public:
 
 
 
-        srand(static_cast <unsigned> (time(0)));
-        mat4 eneM;
-        for(int i = 5; i< obj.size(); i++)
-        {
-            TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
-            if (distance(vec3(obj[5].M1[3]), vec3(obj[2].M1[3])) > 100) {
-                TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-            }
 
-            RotateY = glm::rotate(glm::mat4(1.0f), float(M_PI), glm::vec3(0.0f, 1.0f, 0.0f));
-            S = glm::scale(glm::mat4(1.0f), glm::vec3(8, 8, 8));
-            mat4 Vx = transpose(V);
-            mat4 Vi = lookat(vec3(obj[2].M1[3]), vec3(obj[i].M1[3]));
-            eneM = Vi * TransZ * RotateY;
-            M = Vi * TransZ * RotateY * S;
-            //enemyloc = vec3(M[3]);
-            //send the matrices to the shaders
-            glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
-            glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
-            glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-            glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, Texture5);
-            glActiveTexture(GL_TEXTURE1);
-            glBindTexture(GL_TEXTURE_2D, Texture5);
-            glActiveTexture(GL_TEXTURE2);
-            glBindTexture(GL_TEXTURE_2D, Texture5);
-            obj[5].M1 = M;
-            if (obj[5].draw) {
-                enemy->draw(prog, false);
-            } else {
-                obj.erase(obj.begin() +5);
-            }
-        }
 
 
         prog->unbind();
 
-
-        cloudprog->bind();
-        TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -300.0f));
-        RotateX = glm::rotate(glm::mat4(1.0f), w * 1.1f, glm::vec3(sin(w), 1.0f, 0.0f));
-        S = glm::scale(glm::mat4(1.0f), glm::vec3(121, 121, 121));
-        M = TransZ * RotateX * S;
-        glUniformMatrix4fv(cloudprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
-        glUniformMatrix4fv(cloudprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
-        glUniformMatrix4fv(cloudprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-        glUniform3fv(cloudprog->getUniform("campos"), 1, &mycam.pos[0]);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, Texture4);
-        obj[4].M1 = M;
-        if (obj[4].draw) {
-            shape->draw(cloudprog, false);
-        }
-
-
-        cloudprog->unbind();
 
 
 
@@ -1267,7 +1188,7 @@ public:
 
             }
         }
-        if(count%30 == 0 && obj.size() < 6)
+        if(count%1000 == 0 && obj.size() < 6)
         {
 
             obj.push_back(object(enemyb));
