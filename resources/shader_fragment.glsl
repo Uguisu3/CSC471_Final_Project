@@ -16,7 +16,7 @@ float diffuse = dot(n,ld);
 
 color = texture(tex, vertex_tex)*.5;
 
-//color *= diffuse*1.0;
+color *= diffuse*1.0;
 
 vec3 cd = normalize(vertex_pos - campos);
 vec3 h = normalize(cd+ld);

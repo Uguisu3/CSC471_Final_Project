@@ -137,6 +137,11 @@ public:
 
 };
 
+struct explosion
+{
+    mat4 M1;
+    int life = 1200;
+};
 
 boundingbox shapeb;
 boundingbox shipb;
@@ -809,6 +814,7 @@ public:
         glViewport(0, 0, width, height);
 
         static vector<mat4> projectile;
+        static vector<explosion> explosions;
 
         // Clear framebuffer.
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -849,6 +855,7 @@ public:
         shape->draw(skyprog, false);
         skyprog->unbind();
         glEnable(GL_DEPTH_TEST);
+
         static vector<object> obj;
         if (obj.size() < 5) {
             obj.push_back(object(shapeb));
@@ -857,10 +864,8 @@ public:
             obj.push_back(object(shipb));
             obj.push_back(object(shapeb));
 
-            obj[2].health = 179;
-            obj[2].healthstart = 179;
-
-
+            obj[2].health = 1790;
+            obj[2].healthstart = 1790;
 
         }
 
@@ -1040,13 +1045,19 @@ public:
 
         healthbarprog->bind();
         if (obj[2].draw) {
-            TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(4.0f, 20.0f, -10.0f));
+            TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(4.0f, 20.0f, -5.0f));
+            RotateY = glm::rotate(glm::mat4(1.0f), .5f, glm::vec3(0.0f, 1.0f, 0.0f));
+            RotateX = glm::rotate(glm::mat4(1.0f), w * 3, glm::vec3(0.0f, 1.0f, 0.0f));
             S = glm::scale(glm::mat4(1.0f), glm::vec3(20, 10, 20));
 
             M = babM * TransZ * S;
             mat4 Vx = transpose(V);
-            mat4 Vi = lookat(vec3(Vx[3][0], Vx[3][1], Vx[3][2]), vec3(M[3][0], M[3][1], M[3][2]));
-            M = Vi * S;
+            //mat4 Vi = lookat(vec3(Vx[3][0], Vx[3][1], Vx[3][2]), vec3(M[3][0], M[3][1], M[3][2]));
+            mat4 Vi = glm::transpose(V);
+            Vi[0][3] = 0;
+            Vi[1][3] = 0;
+            Vi[2][3] = 0;
+            M = babM *TransZ* S * Vi;
             int health = (obj[2].healthstart - obj[2].health) * 179 / obj[2].healthstart;
             glUniformMatrix4fv(healthbarprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(healthbarprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
@@ -1064,15 +1075,18 @@ public:
 
         for (int i = 5; i < obj.size(); i++)
         {
-            TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+            TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 5.0f, 0.0f));
             RotateY = glm::rotate(glm::mat4(1.0f), .5f, glm::vec3(0.0f, 1.0f, 0.0f));
             RotateX = glm::rotate(glm::mat4(1.0f), w * 3, glm::vec3(0.0f, 1.0f, 0.0f));
             S = glm::scale(glm::mat4(1.0f), glm::vec3(10, 5, 10));
 
             M = obj[i].M1 * TransZ * S;
-            mat4 Vx = transpose(V);
-            mat4 Vi = lookat(vec3(Vx[3][0], Vx[3][1], Vx[3][2]), vec3(M[3][0], M[3][1], M[3][2]));
-            M = Vi * S;
+            //mat4 Vx = transpose(V);
+            mat4 Vi = glm::transpose(V);
+            Vi[0][3] = 0;
+            Vi[1][3] = 0;
+            Vi[2][3] = 0;
+            M = eneM*TransZ* S* Vi;
             int health = (obj[i].healthstart - obj[i].health) * 179 / obj[i].healthstart;
             glUniformMatrix4fv(healthbarprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(healthbarprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
@@ -1158,10 +1172,12 @@ public:
 
 
         for (int i = 0; i < projectile.size(); i++) {
-            mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 8.0f));
-            mat4 RotateX = glm::rotate(glm::mat4(1.0f), mycam.xangle, glm::vec3(1.0f, 0.0f, 0.0f));
-            mat4 RotateY = glm::rotate(glm::mat4(1.0f), mycam.yangle, glm::vec3(1.0f, 0.0f, 0.0f));
-            M = projectile[i];
+            mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f,5.0f));
+            mat4 Vi = glm::transpose(V);
+            Vi[0][3] = 0;
+            Vi[1][3] = 0;
+            Vi[2][3] = 0;
+            M = projectile[i] * Vi;
             projectile[i] *= T;
 
             glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
@@ -1176,6 +1192,26 @@ public:
             if (distance(vec4(0, 0, 0, 0), projectile[i][3]) > 500) {
                 projectile.erase(projectile.begin() + i);
             }
+        }
+        for(int i = 0; i < explosions.size(); i++)
+        {
+
+            mat4 Vi = glm::transpose(V);
+            Vi[0][3] = 0;
+            Vi[1][3] = 0;
+            Vi[2][3] = 0;
+            M =  explosions[i].M1* Vi;
+            glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
+            glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
+            glUniformMatrix4fv(laserprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+            glUniform3fv(laserprog->getUniform("campos"), 1, &mycam.pos[0]);
+            glBindVertexArray(VertexArrayID);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferIDBox);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, Texture);
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void *) 0);
+
+
         }
 
         laserprog->unbind();
@@ -1192,6 +1228,9 @@ public:
                     {
                         obj[i].draw = false;
                     }
+                    explosion e;
+                    e.M1 = glm::translate(glm::mat4(1.0f), glm::vec3(projectile[i][3]));
+                    explosions.push_back(e);
                     projectile.erase(projectile.begin() + x);
                 }
             }
