@@ -24,27 +24,74 @@ using namespace glm;
 class boundingbox
 {
 public:
+    vec3 points[8];
 
     static bool collision(boundingbox b1, mat4 M1, boundingbox b2, mat4 M2)
     {
         boundingbox b1t = multiply(b1,M1);
         boundingbox b2t = multiply(b2,M2);
-        if((b1t.maxx <= b2t.maxx && b1t.maxx >= b2t.minx) || (b1t.minx >= b2t.minx && b1t.minx <= b2t.maxx))
+        vec3 norms[6];
+        norms[0] = cross(b1t.points[7]-b1t.points[6],b1t.points[0]-b1t.points[6]);
+        norms[1] = cross(b1t.points[1]-b1t.points[0],b1t.points[2]-b1t.points[0]);
+        norms[2] = cross(b1t.points[3]-b1t.points[2],b1t.points[4]-b1t.points[2]);
+        norms[3] = cross(b1t.points[3]-b1t.points[5],b1t.points[7]-b1t.points[5]);
+        norms[4] = cross(b1t.points[4]-b1t.points[2],b1t.points[6]-b1t.points[2]);
+        norms[5] = cross(b1t.points[5]-b1t.points[4],b1t.points[6]-b1t.points[4]);
+        float d;
+        vec3 p;
+        for(int j=0; j < 8; j++)
         {
-            if((b1t.maxy <= b2t.maxy && b1t.maxy >= b2t.miny) || (b1t.miny >= b2t.miny && b1t.miny <= b2t.maxy))
+            p = b2t.points[j];
+            for(int i = 0; i< 6;i++)
             {
-                if((b1t.maxz <= b2t.maxz && b1t.maxz >= b2t.minz) || (b1t.minz >= b2t.minz && b1t.minz <= b2t.maxz))
+                d =- (b1t.points[i].x * norms[i].x + b1t.points[i].y * norms[i].y +b1t.points[i].z * norms[i].z);
+                float distance = (norms[i].x*p.x +norms[i].y*p.y + norms[i].z*p.z + d)/sqrt(norms[i].x*norms[i].x +norms[i].y*norms[i].y+norms[i].z*norms[i].z);
+                if(distance > 0)
                 {
-                    return true;
+                    return false;
                 }
-           }
+            }
         }
-        return false;
+
+        return true;
+
+    }
+
+    static bool collisionpoint(boundingbox b1, mat4 M1, vec3 p)
+    {
+        boundingbox b1t = multiply(b1,M1);
+
+        vec3 norms[6];
+        norms[0] = normalize(cross(b1t.points[7]-b1t.points[6],b1t.points[0]-b1t.points[6]));
+        norms[1] = normalize(cross(b1t.points[1]-b1t.points[0],b1t.points[2]-b1t.points[0]));
+        norms[2] = normalize(cross(b1t.points[3]-b1t.points[2],b1t.points[4]-b1t.points[2]));
+        norms[3] = normalize(cross(b1t.points[3]-b1t.points[5],b1t.points[7]-b1t.points[5]));
+        norms[4] = normalize(cross(b1t.points[4]-b1t.points[2],b1t.points[6]-b1t.points[2]));
+        norms[5] = normalize(cross(b1t.points[5]-b1t.points[4],b1t.points[6]-b1t.points[4]));
+        float d;
+        for(int i = 0; i< 6;i++)
+        {
+            d =- (b1t.points[i].x * norms[i].x + b1t.points[i].y * norms[i].y +b1t.points[i].z * norms[i].z);
+               float distance = (norms[i].x*p.x +norms[i].y*p.y + norms[i].z*p.z + d)/sqrt(norms[i].x*norms[i].x +norms[i].y*norms[i].y+norms[i].z*norms[i].z);
+                if(distance > 0)
+                {
+                    return false;
+                }
+        }
+
+        return true;
 
 
     }
+
     void createbox(shared_ptr<Shape> shape)
     {
+        float minx;
+        float miny;
+        float minz;
+        float maxx;
+        float maxy;
+        float maxz;
         maxx = shape->posBuf[0][0];
         maxy = shape->posBuf[0][1];
         maxz = shape->posBuf[0][2];
@@ -62,58 +109,31 @@ public:
                 if (minz > shape->posBuf[x][i + 2]) { minz = shape->posBuf[x][i + 2]; }
             }
         }
+        points[0] = vec3(minx,miny,minz);
+        points[1] = vec3(minx,maxy,minz);
+        points[2] = vec3(maxx,miny,minz);
+        points[3] = vec3(maxx,maxy,minz);
+        points[4] = vec3(maxx,miny,maxz);
+        points[5] = vec3(maxx,maxy,maxz);
+        points[6] = vec3(minx,miny,maxz);
+        points[7] = vec3(minx,maxy,maxz);
+
+
 
     }
 
     static boundingbox multiply(boundingbox b1, mat4 mult)
     {
         boundingbox tempb;
-        vec4 temp =  mult * vec4(b1.minx,b1.miny,b1.minz,1);
-        vec4 temp2 =  mult *vec4(b1.maxx,b1.maxy,b1.maxz,1);
-        if(temp.x > temp2.x){tempb.maxx = temp.x;tempb.minx = temp2.x;}
-        else {tempb.maxx = temp2.x;tempb.minx = temp.x;}
-        if(temp.y > temp2.y){tempb.maxy = temp.y;tempb.miny = temp2.y;}
-        else {tempb.maxy = temp2.y;tempb.miny = temp.y;}
-        if(temp.z > temp2.z){tempb.maxz = temp.z;tempb.minz = temp2.z;}
-        else {tempb.maxz = temp2.z;tempb.minz = temp.z;}
+
+        for(int i = 0; i <8; i++)
+        {
+           tempb.points[i] = vec3(mult * vec4(b1.points[i],1));
+        }
         return tempb;
     }
-    vector<vec3> points()
-    {
-        vector<vec3> point;
-        //front
-        point.push_back(vec3(minx,miny,maxz));
-        point.push_back(vec3(maxx,miny,maxz));
-        point.push_back(vec3(maxx,maxy,maxz));
-        point.push_back(vec3(minx,maxy,maxz));
-        //back
-        point.push_back(vec3(minx,miny,minz));
-        point.push_back(vec3(maxx,miny,minz));
-        point.push_back(vec3(maxx,maxy,minz));
-        point.push_back(vec3(minx,maxy,minz));
-        //tube 8-11
-        point.push_back(vec3(minx,miny,maxz));
-        point.push_back(vec3(maxx,miny,maxz));
-        point.push_back(vec3(maxx,maxy,maxz));
-        point.push_back(vec3(minx,maxy,maxz));
-        //12-15
-        point.push_back(vec3(minx,miny,minz));
-        point.push_back(vec3(maxx,miny,minz));
-        point.push_back(vec3(maxx,maxy,minz));
-        point.push_back(vec3(minx,maxy,minz));
-        return point;
-    }
 
 
-
-
-        private:
-    float minx;
-    float miny;
-    float minz;
-    float maxx;
-    float maxy;
-    float maxz;
 
 };
 
@@ -805,7 +825,7 @@ public:
         //animation with the model matrix:
         static float w = 0.0;
         static int count = 0;
-        count++;
+        count+= rand()%30;
         w += 0.005 * frametime;//rotation angle
         glm::mat4 RotateY = glm::rotate(glm::mat4(1.0f), w, glm::vec3(0.0f, 1.0f, 0.0f));
         float angle = 3.1415926 / 2.0;
@@ -829,7 +849,6 @@ public:
         shape->draw(skyprog, false);
         skyprog->unbind();
         glEnable(GL_DEPTH_TEST);
-
         static vector<object> obj;
         if (obj.size() < 5) {
             obj.push_back(object(shapeb));
@@ -838,8 +857,10 @@ public:
             obj.push_back(object(shipb));
             obj.push_back(object(shapeb));
 
-            obj[2].health = 1790;
-            obj[2].healthstart = 1790;
+            obj[2].health = 179;
+            obj[2].healthstart = 179;
+
+
 
         }
 
@@ -994,10 +1015,10 @@ public:
 
 
         TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(3.0f, 0.0f, -50.0f));
-        RotateY = glm::rotate(glm::mat4(1.0f), .5f, glm::vec3(0.0f, 1.0f, 0.0f));
+        RotateY = glm::rotate(glm::mat4(1.0f),float(M_PI)/3, glm::vec3(0.0f, 1.0f, 0.0f));
         RotateX = glm::rotate(glm::mat4(1.0f), w * 3, glm::vec3(0.0f, 1.0f, 0.0f));
         S = glm::scale(glm::mat4(1.0f), glm::vec3(80, 80, 80));
-        mat4 babM = TransZ * RotateY;
+        mat4 babM = TransZ * RotateY ;
         M = babM * S;
         //send the matrices to the shaders
         glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
@@ -1012,11 +1033,6 @@ public:
 
         }
 
-
-
-
-
-
         prog->unbind();
 
 
@@ -1025,8 +1041,6 @@ public:
         healthbarprog->bind();
         if (obj[2].draw) {
             TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(4.0f, 20.0f, -10.0f));
-            RotateY = glm::rotate(glm::mat4(1.0f), .5f, glm::vec3(0.0f, 1.0f, 0.0f));
-            RotateX = glm::rotate(glm::mat4(1.0f), w * 3, glm::vec3(0.0f, 1.0f, 0.0f));
             S = glm::scale(glm::mat4(1.0f), glm::vec3(20, 10, 20));
 
             M = babM * TransZ * S;
@@ -1171,8 +1185,7 @@ public:
         {
             for(int x = 0; x < projectile.size(); x++)
             {
-                if(obj[i].draw  && (boundingbox::collision(boxb,projectile[x], obj[i].bb1,obj[i].M1) ||
-                boundingbox::collision(obj[i].bb1,obj[i].M1,boxb,projectile[x])))
+                if(obj[i].draw  && (boundingbox::collisionpoint(obj[i].bb1,obj[i].M1,vec3(projectile[x][3]))))
                 {
                     obj[i].health--;
                     if(obj[i].health <= 0)
@@ -1192,10 +1205,11 @@ public:
         }
         for(int i = 5; i< obj.size(); i++)
         {
-            if (count % 1000 == 0) {
+            if (count % 50 == 0) {
                 mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));
                 mat4 R = glm::rotate(glm::mat4(1.0f), float(M_PI), glm::vec3(0.0f, 1.0f, 0.0f));
-                projectile.push_back(obj[i].M1 * T * R);
+                mat4 S =  S = glm::scale(glm::mat4(1.0f), glm::vec3(.115, .115, .115));
+                projectile.push_back( obj[i].M1 * T * R * S);
 
             }
         }
