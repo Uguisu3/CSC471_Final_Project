@@ -6,6 +6,7 @@ CPE/CSC 471 Lab base code Wood/Dunn/Eckhardt
 #include <glad/glad.h>
 #include <cstdlib>
 #include <ctime>
+#include <algorithm>
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include "GLSL.h"
@@ -137,10 +138,12 @@ public:
 
 };
 
+int boom = 120;
+
 struct explosion
 {
     mat4 M1;
-    int life = 1200;
+    int life = boom;
 };
 
 boundingbox shapeb;
@@ -304,6 +307,7 @@ public:
 
 camera mycam;
 
+
 class Application : public EventCallbacks
 {
 
@@ -318,6 +322,7 @@ public:
     std::shared_ptr<Program> laserprog;
     std::shared_ptr<Program> healthbarprog;
     std::shared_ptr<Program> shipprog;
+    std::shared_ptr<Program> explosionprog;
 
 	// Contains vertex information for OpenGL
 	GLuint VertexArrayID;
@@ -447,10 +452,10 @@ public:
 
         GLfloat cube_vertices[] = {
                 // front
-                -1.0, -1.0,  1.0,//LD
-                1.0, -1.0,  1.0,//RD
-                1.0,  1.0,  1.0,//RU
-                -1.0,  1.0,  1.0,//LU
+                -1.0, -1.0,  0.0,//LD
+                1.0, -1.0,  0.0,//RD
+                1.0,  1.0,  0.0,//RU
+                -1.0,  1.0,  0.0,//LU
         };
         //make it a bit smaller
         for (int i = 0; i < 12; i++)
@@ -571,6 +576,19 @@ public:
 		glUniform1i(Tex3Location, 0);
 
 
+        str1 = resourceDirectory + "/explosion.png";
+        strcpy(filepath, str1.c_str());
+        data = stbi_load(filepath, &width, &height, &channels, 4);
+        glGenTextures(1, &Texture4);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, Texture4);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
         str1 = resourceDirectory + "/shadow.png";
         strcpy(filepath, str1.c_str());
         data = stbi_load(filepath, &width, &height, &channels, 4);
@@ -661,7 +679,7 @@ public:
 	void init(const std::string& resourceDirectory)
 	{
 		GLSL::checkVersion();
-
+        mycam.pos = vec3(-50,30,-50);
 		// Set background color.
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		// Enable z-buffer test.
@@ -722,7 +740,7 @@ public:
 
         cloudprog = std::make_shared<Program>();
         cloudprog->setVerbose(true);
-        cloudprog->setShaderNames(resourceDirectory + "/Cloud_vertex.glsl", resourceDirectory + "/Cloud_fragment.glsl");
+        cloudprog->setShaderNames(resourceDirectory + "/general_vertex.glsl", resourceDirectory + "/Cloud_fragment.glsl");
         if (!cloudprog->init())
         {
             std::cerr << "One or more shaders failed to compile... exiting!" << std::endl;
@@ -738,7 +756,7 @@ public:
 
         laserprog = std::make_shared<Program>();
         laserprog->setVerbose(true);
-        laserprog->setShaderNames(resourceDirectory + "/Cloud_vertex.glsl", resourceDirectory + "/Laser_fragment.glsl");
+        laserprog->setShaderNames(resourceDirectory + "/general_vertex.glsl", resourceDirectory + "/Laser_fragment.glsl");
         if (!laserprog->init())
         {
             std::cerr << "One or more shaders failed to compile... exiting!" << std::endl;
@@ -755,7 +773,7 @@ public:
 
         healthbarprog = std::make_shared<Program>();
         healthbarprog->setVerbose(true);
-        healthbarprog->setShaderNames(resourceDirectory + "/Cloud_vertex.glsl", resourceDirectory + "/HealthBar_fragment.glsl");
+        healthbarprog->setShaderNames(resourceDirectory + "/general_vertex.glsl", resourceDirectory + "/HealthBar_fragment.glsl");
         if (!healthbarprog->init())
         {
             std::cerr << "One or more shaders failed to compile... exiting!" << std::endl;
@@ -770,6 +788,25 @@ public:
         healthbarprog->addAttribute("vertPos");
         healthbarprog->addAttribute("vertNor");
         healthbarprog->addAttribute("vertTex");
+
+
+        explosionprog = std::make_shared<Program>();
+        explosionprog->setVerbose(true);
+        explosionprog->setShaderNames(resourceDirectory + "/general_vertex.glsl", resourceDirectory + "/explosion_fragment.glsl");
+        if (!explosionprog->init())
+        {
+            std::cerr << "One or more shaders failed to compile... exiting!" << std::endl;
+            exit(1);
+        }
+        explosionprog->addUniform("P");
+        explosionprog->addUniform("V");
+        explosionprog->addUniform("M");
+        explosionprog->addUniform("xpos");
+        explosionprog->addUniform("ypos");
+        explosionprog->addUniform("campos");
+        explosionprog->addAttribute("vertPos");
+        explosionprog->addAttribute("vertNor");
+        explosionprog->addAttribute("vertTex");
 
 	}
 
@@ -831,7 +868,7 @@ public:
         //animation with the model matrix:
         static float w = 0.0;
         static int count = 0;
-        count+= rand()%30;
+        count+= rand()%10;
         w += 0.005 * frametime;//rotation angle
         glm::mat4 RotateY = glm::rotate(glm::mat4(1.0f), w, glm::vec3(0.0f, 1.0f, 0.0f));
         float angle = 3.1415926 / 2.0;
@@ -864,9 +901,26 @@ public:
             obj.push_back(object(shipb));
             obj.push_back(object(shapeb));
 
-            obj[2].health = 1790;
-            obj[2].healthstart = 1790;
+            obj[2].health = 179;
+            obj[2].healthstart = 179;
+            obj[3].health = 1;
+        }
 
+
+        static int countdown = 10;
+        if(!obj[3].draw)
+        {
+            countdown--;
+            mycam.e = 0;
+            mycam.f = 0;
+            mycam.i = 0;
+            mycam.j = 0;
+        }
+        if(!countdown)
+        {
+            countdown = 10;
+            mycam.pos = vec3(-50,30,-50);
+            obj[3].draw = true;
         }
 
 
@@ -942,7 +996,6 @@ public:
         }
 
         srand(static_cast <unsigned> (time(0)));
-        mat4 eneM;
         for(int i = 5; i< obj.size(); i++)
         {
             TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
@@ -950,14 +1003,10 @@ public:
                 TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
             }
 
-            RotateY = glm::rotate(glm::mat4(1.0f), float(M_PI), glm::vec3(0.0f, 1.0f, 0.0f));
             S = glm::scale(glm::mat4(1.0f), glm::vec3(8, 8, 8));
             mat4 Vx = transpose(V);
             mat4 Vi = lookat(vec3(obj[2].M1[3]), vec3(obj[i].M1[3]));
-            eneM = Vi * TransZ * RotateY;
-            M = Vi * TransZ * RotateY * S;
-            //enemyloc = vec3(M[3]);
-            //send the matrices to the shaders
+            M = Vi * TransZ  * S;
             glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
             glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
@@ -968,9 +1017,12 @@ public:
             if (obj[5].draw) {
                 enemy->draw(prog, false);
             } else {
-                obj.erase(obj.begin() +5);
+                obj.erase(obj.begin() +i);
             }
         }
+
+
+
 
 
         shipprog->unbind();
@@ -1040,24 +1092,56 @@ public:
 
         prog->unbind();
 
+        explosionprog->bind();
+        //glDisable(GL_DEPTH_TEST);
+        glDepthMask(GL_FALSE);
+        for(int i = 0; i < explosions.size(); i++)
+        {
+
+            S = glm::scale(glm::mat4(1.0f), glm::vec3(5, 5, 5));
+            mat4 Vi = glm::transpose(V);
+            Vi[0][3] = 0;
+            Vi[1][3] = 0;
+            Vi[2][3] = 0;
+            M =  explosions[i].M1* Vi * S;
+            int life = ((boom - explosions[i].life)*12)/boom;
+            glUniformMatrix4fv(explosionprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
+            glUniformMatrix4fv(explosionprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
+            glUniformMatrix4fv(explosionprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+            glUniform1i(explosionprog->getUniform("xpos"), life% 5);
+            glUniform1i(explosionprog->getUniform("ypos"), life / 5);
+            glUniform3fv(explosionprog->getUniform("campos"), 1, &mycam.pos[0]);
+            glBindVertexArray(VertexArrayID);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferIDBox);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, Texture4);
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void *) 0);
+            explosions[i].life--;
+            if(explosions[i].life<= 0)
+            {
+                explosions.erase(explosions.begin()+i);
+            }
+
+        }
+        glDepthMask(GL_TRUE);
+        //glEnable(GL_DEPTH_TEST);
+        explosionprog->unbind();
 
 
 
         healthbarprog->bind();
         if (obj[2].draw) {
-            TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(4.0f, 20.0f, -5.0f));
+            TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(4.0f +babM[3][0], 20.0f +babM[3][1], -5.0f+babM[3][2]));
             RotateY = glm::rotate(glm::mat4(1.0f), .5f, glm::vec3(0.0f, 1.0f, 0.0f));
             RotateX = glm::rotate(glm::mat4(1.0f), w * 3, glm::vec3(0.0f, 1.0f, 0.0f));
             S = glm::scale(glm::mat4(1.0f), glm::vec3(20, 10, 20));
 
             M = babM * TransZ * S;
-            mat4 Vx = transpose(V);
-            //mat4 Vi = lookat(vec3(Vx[3][0], Vx[3][1], Vx[3][2]), vec3(M[3][0], M[3][1], M[3][2]));
             mat4 Vi = glm::transpose(V);
             Vi[0][3] = 0;
             Vi[1][3] = 0;
             Vi[2][3] = 0;
-            M = babM *TransZ* S * Vi;
+            M = TransZ * Vi* S;
             int health = (obj[2].healthstart - obj[2].health) * 179 / obj[2].healthstart;
             glUniformMatrix4fv(healthbarprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(healthbarprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
@@ -1075,18 +1159,17 @@ public:
 
         for (int i = 5; i < obj.size(); i++)
         {
-            TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 5.0f, 0.0f));
+            TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(obj[i].M1[3][0], 5.0f + obj[i].M1[3][1], obj[i].M1[3][2]));
             RotateY = glm::rotate(glm::mat4(1.0f), .5f, glm::vec3(0.0f, 1.0f, 0.0f));
             RotateX = glm::rotate(glm::mat4(1.0f), w * 3, glm::vec3(0.0f, 1.0f, 0.0f));
             S = glm::scale(glm::mat4(1.0f), glm::vec3(10, 5, 10));
 
             M = obj[i].M1 * TransZ * S;
-            //mat4 Vx = transpose(V);
             mat4 Vi = glm::transpose(V);
             Vi[0][3] = 0;
             Vi[1][3] = 0;
             Vi[2][3] = 0;
-            M = eneM*TransZ* S* Vi;
+            M = TransZ* S* Vi;
             int health = (obj[i].healthstart - obj[i].health) * 179 / obj[i].healthstart;
             glUniformMatrix4fv(healthbarprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(healthbarprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
@@ -1106,11 +1189,12 @@ public:
 
         healthbarprog->unbind();
 
+
         laserprog->bind();
         if(mycam.e == 1)
         {
             S = glm::scale(glm::mat4(1.0f), glm::vec3(.4, .4, .4));
-            mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(0.71f, 0.30f, -0.7f));
+            mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(0.71f, 0.30f, -0.4f));
             M = obj[3].M1 * Trans * S;
             glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
@@ -1126,7 +1210,7 @@ public:
         if(mycam.f == 1)
         {
             S = glm::scale(glm::mat4(1.0f), glm::vec3(.4, .4, .4));
-            mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(0.71f, -0.30f, -0.7f));
+            mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(0.71f, -0.30f, -0.4f));
             M = obj[3].M1 * Trans * S;
             glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
@@ -1141,7 +1225,7 @@ public:
         if(mycam.j == 1)
         {
             S = glm::scale(glm::mat4(1.0f), glm::vec3(.4, .4, .4));
-            mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(-0.71f, -0.30f, -0.7f));
+            mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(-0.71f, -0.30f, -0.4f));
             M = obj[3].M1 * Trans * S;
             glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
@@ -1157,7 +1241,7 @@ public:
         if(mycam.i == 1)
         {
             S = glm::scale(glm::mat4(1.0f), glm::vec3(.4, .4, .4));
-            mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(-0.71f, 0.30f, -0.7f));
+            mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(-0.71f, 0.30f, -0.4f));
             M = obj[3].M1 * Trans * S;
             glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
@@ -1171,14 +1255,15 @@ public:
         }
 
 
+
         for (int i = 0; i < projectile.size(); i++) {
-            mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f,5.0f));
+            mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f,8.0f ));
             mat4 Vi = glm::transpose(V);
             Vi[0][3] = 0;
             Vi[1][3] = 0;
             Vi[2][3] = 0;
-            M = projectile[i] * Vi;
-            projectile[i] *= T;
+            M = (mat4(vec4(1,0,0,0),vec4(0,1,0,0),vec4(0,0,1,0),projectile[i][3]))*Vi;
+           projectile[i] *= T;
 
             glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
@@ -1193,26 +1278,7 @@ public:
                 projectile.erase(projectile.begin() + i);
             }
         }
-        for(int i = 0; i < explosions.size(); i++)
-        {
 
-            mat4 Vi = glm::transpose(V);
-            Vi[0][3] = 0;
-            Vi[1][3] = 0;
-            Vi[2][3] = 0;
-            M =  explosions[i].M1* Vi;
-            glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
-            glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
-            glUniformMatrix4fv(laserprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-            glUniform3fv(laserprog->getUniform("campos"), 1, &mycam.pos[0]);
-            glBindVertexArray(VertexArrayID);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferIDBox);
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, Texture);
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void *) 0);
-
-
-        }
 
         laserprog->unbind();
 
@@ -1227,16 +1293,45 @@ public:
                     if(obj[i].health <= 0)
                     {
                         obj[i].draw = false;
+                        float s1 = length(vec3(obj[i].M1[0]));
+                        float s2 = length(vec3(obj[i].M1[1]));
+                        float s3 = length(vec3(obj[i].M1[2]));
+                        for(int j = 0; j < 100; j++)
+                        {
+                            explosion ex;
+                            ex.M1 = glm::translate(glm::mat4(1.0f), vec3(projectile[x][3][0]+ s1*(rand()%100)/100.0f - s1/2,
+                                    projectile[x][3][1]+ s2*(rand()%100)/100.0f - s2/2,projectile[x][3][2]+s3*(rand()%100)/100.0f - s3/2));
+                            ex.life = rand()%boom*1.2;
+                            explosions.emplace(explosions.begin(),ex);
+                        }
+
                     }
                     explosion e;
-                    e.M1 = glm::translate(glm::mat4(1.0f), glm::vec3(projectile[i][3]));
-                    explosions.push_back(e);
+                    e.M1 = glm::translate(glm::mat4(1.0f), glm::vec3(projectile[x][3]));
+                    explosions.emplace(explosions.begin(),e);
                     projectile.erase(projectile.begin() + x);
+                }
+                if(i !=3 && (boundingbox::collision(obj[i].bb1,obj[i].M1,obj[3].bb1,obj[3].M1)))
+                {
+
+                    obj[3].draw = false;
+                    float s1 = length(vec3(obj[3].M1[0]));
+                    float s2 = length(vec3(obj[3].M1[1]));
+                    float s3 = length(vec3(obj[3].M1[2]));
+                    for(int j = 0; j < 100; j++)
+                    {
+                        explosion ex;
+                        ex.M1 = glm::translate(glm::mat4(1.0f), vec3(obj[3].M1[3][0]+ s1*(rand()%100)/100.0f - s1/2,
+                                                                     obj[3].M1[3][1]+ s2*(rand()%100)/100.0f - s2/2,
+                                                                     obj[3].M1[3][2]+s3*(rand()%100)/100.0f - s3/2));
+                        ex.life = rand()%120;
+                        explosions.emplace(explosions.begin(),ex);
+                    }
                 }
             }
 
         }
-        if(space ==1)
+        if(space ==1 && obj[3].draw)
         {
             mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 2.0f));
             projectile.push_back(obj[3].M1*T);
@@ -1244,15 +1339,14 @@ public:
         }
         for(int i = 5; i< obj.size(); i++)
         {
-            if (count % 50 == 0) {
-                mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));
-                mat4 R = glm::rotate(glm::mat4(1.0f), float(M_PI), glm::vec3(0.0f, 1.0f, 0.0f));
-                mat4 S =  S = glm::scale(glm::mat4(1.0f), glm::vec3(.115, .115, .115));
-                projectile.push_back( obj[i].M1 * T * R * S);
+            if (count % 20 == 0) {
+                mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f,0.0f, 2.0f));
+                S = glm::scale(glm::mat4(1.0f), glm::vec3(.02, .02, .02));
+                projectile.push_back( obj[i].M1*T * S );
 
             }
         }
-        if(count%1000 == 0 && obj.size() < 6)
+        if(count%10 == 0 && obj.size() < 6)
         {
 
             obj.push_back(object(enemyb));
