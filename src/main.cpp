@@ -19,6 +19,9 @@ CPE/CSC 471 Lab base code Wood/Dunn/Eckhardt
 // value_ptr for glm
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <chrono>
+
+using namespace std::chrono;
 using namespace std;
 using namespace glm;
 
@@ -545,16 +548,13 @@ public:
         //[TWOTEXTURES]
 		//set the 2 textures to the correct samplers in the fragment shader:
 		GLuint Tex1Location = glGetUniformLocation(prog->pid, "tex");//tex, tex2... sampler in the fragment shader
-		GLuint Tex2Location = glGetUniformLocation(prog->pid, "tex2");
-        GLuint Tex6Location = glGetUniformLocation(prog->pid, "tex3");
+
 		// Then bind the uniform samplers to texture units:
 		glUseProgram(prog->pid);
 		glUniform1i(Tex1Location, 0);
-		glUniform1i(Tex2Location, 1);
-		glUniform1i(Tex6Location, 2);
-		//glBindVertexArray(0);
 
-		string str1 = resourceDirectory + "/8k_stars_milky_way.jpg";
+
+		string str1 = resourceDirectory + "/2k_stars_milky_way.jpg";
 		strcpy(filepath, str1.c_str());
 		data = stbi_load(filepath, &width, &height, &channels, 4);
 		glGenTextures(1, &Texture3);
@@ -842,6 +842,7 @@ public:
 	draw
 	********/
 	void render() {
+       // auto start = high_resolution_clock::now();
         double frametime = get_last_elapsed_time();
 
         // Get current frame buffer size.
@@ -894,21 +895,19 @@ public:
         glEnable(GL_DEPTH_TEST);
 
         static vector<object> obj;
-        if (obj.size() < 5) {
-            obj.push_back(object(shapeb));
+        if (obj.size() < 3) {
             obj.push_back(object(shapeb));
             obj.push_back(object(boxb));
             obj.push_back(object(shipb));
-            obj.push_back(object(shapeb));
 
-            obj[2].health = 179;
-            obj[2].healthstart = 179;
-            obj[3].health = 1;
+            obj[1].health = 179;
+            obj[1].healthstart = 179;
+            obj[2].health = 1;
         }
 
 
         static int countdown = 10;
-        if(!obj[3].draw)
+        if(!obj[2].draw)
         {
             countdown--;
             mycam.e = 0;
@@ -920,7 +919,7 @@ public:
         {
             countdown = 10;
             mycam.pos = vec3(-50,30,-50);
-            obj[3].draw = true;
+            obj[2].draw = true;
         }
 
 
@@ -990,22 +989,22 @@ public:
         glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, Texture);
-        obj[3].M1 = M;
-        if (obj[3].draw) {
+        obj[2].M1 = M;
+        if (obj[2].draw) {
             ship->draw(shipprog, false);
         }
 
         srand(static_cast <unsigned> (time(0)));
-        for(int i = 5; i< obj.size(); i++)
+        for(int i = 3; i< obj.size(); i++)
         {
             TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
-            if (distance(vec3(obj[5].M1[3]), vec3(obj[2].M1[3])) > 100) {
+            if (distance(vec3(obj[i].M1[3]), vec3(obj[1].M1[3])) > 100) {
                 TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
             }
 
             S = glm::scale(glm::mat4(1.0f), glm::vec3(8, 8, 8));
             mat4 Vx = transpose(V);
-            mat4 Vi = lookat(vec3(obj[2].M1[3]), vec3(obj[i].M1[3]));
+            mat4 Vi = lookat(vec3(obj[1].M1[3]), vec3(obj[i].M1[3]));
             M = Vi * TransZ  * S;
             glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
@@ -1013,8 +1012,8 @@ public:
             glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, Texture5);
-            obj[5].M1 = M;
-            if (obj[5].draw) {
+            obj[i].M1 = M;
+            if (obj[i].draw) {
                 enemy->draw(prog, false);
             } else {
                 obj.erase(obj.begin() +i);
@@ -1041,35 +1040,10 @@ public:
         glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, Texture2);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, Texture);
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, Texture6);
         obj[0].M1 = M;
         if (obj[0].draw) {
             shape->draw(prog, false);
         }
-        TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(3.0f, 0.0f, 0.0f));
-        RotateY = glm::rotate(glm::mat4(1.0f), w * .5f, glm::vec3(0.0f, 1.0f, 0.0f));
-        RotateX = glm::rotate(glm::mat4(1.0f), w * 3, glm::vec3(0.0f, 1.0f, 0.0f));
-        S = glm::scale(glm::mat4(1.0f), glm::vec3(0.3f, 0.3f, 0.3f));
-        M = Mearth * RotateX * TransZ * RotateY * S;
-        //send the matrices to the shaders
-        glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
-        glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
-        glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-        glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, Texture5);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, Texture5);
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, Texture5);
-        obj[1].M1 = M;
-        if (obj[1].draw) {
-            shape->draw(prog, false);
-        }
-
 
         TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(3.0f, 0.0f, -50.0f));
         RotateY = glm::rotate(glm::mat4(1.0f),float(M_PI)/3, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -1084,8 +1058,8 @@ public:
         glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);
         S = glm::scale(glm::mat4(1.0f), glm::vec3(80, 10, 10));
         M = babM * S;
-        obj[2].M1 = M;
-        if (obj[2].draw) {
+        obj[1].M1 = M;
+        if (obj[1].draw) {
             babylon5->draw(prog, false);
 
         }
@@ -1130,7 +1104,7 @@ public:
 
 
         healthbarprog->bind();
-        if (obj[2].draw) {
+        if (obj[1].draw) {
             TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(4.0f +babM[3][0], 20.0f +babM[3][1], -5.0f+babM[3][2]));
             RotateY = glm::rotate(glm::mat4(1.0f), .5f, glm::vec3(0.0f, 1.0f, 0.0f));
             RotateX = glm::rotate(glm::mat4(1.0f), w * 3, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -1142,7 +1116,7 @@ public:
             Vi[1][3] = 0;
             Vi[2][3] = 0;
             M = TransZ * Vi* S;
-            int health = (obj[2].healthstart - obj[2].health) * 179 / obj[2].healthstart;
+            int health = (obj[1].healthstart - obj[1].health) * 179 / obj[1].healthstart;
             glUniformMatrix4fv(healthbarprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(healthbarprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
             glUniformMatrix4fv(healthbarprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
@@ -1157,7 +1131,7 @@ public:
 
         }
 
-        for (int i = 5; i < obj.size(); i++)
+        for (int i = 3; i < obj.size(); i++)
         {
             TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(obj[i].M1[3][0], 5.0f + obj[i].M1[3][1], obj[i].M1[3][2]));
             RotateY = glm::rotate(glm::mat4(1.0f), .5f, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -1195,7 +1169,7 @@ public:
         {
             S = glm::scale(glm::mat4(1.0f), glm::vec3(.4, .4, .4));
             mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(0.71f, 0.30f, -0.4f));
-            M = obj[3].M1 * Trans * S;
+            M = obj[2].M1 * Trans * S;
             glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
@@ -1211,7 +1185,7 @@ public:
         {
             S = glm::scale(glm::mat4(1.0f), glm::vec3(.4, .4, .4));
             mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(0.71f, -0.30f, -0.4f));
-            M = obj[3].M1 * Trans * S;
+            M = obj[2].M1 * Trans * S;
             glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
@@ -1226,7 +1200,7 @@ public:
         {
             S = glm::scale(glm::mat4(1.0f), glm::vec3(.4, .4, .4));
             mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(-0.71f, -0.30f, -0.4f));
-            M = obj[3].M1 * Trans * S;
+            M = obj[2].M1 * Trans * S;
             glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
@@ -1242,7 +1216,7 @@ public:
         {
             S = glm::scale(glm::mat4(1.0f), glm::vec3(.4, .4, .4));
             mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(-0.71f, 0.30f, -0.4f));
-            M = obj[3].M1 * Trans * S;
+            M = obj[2].M1 * Trans * S;
             glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
@@ -1283,6 +1257,7 @@ public:
         laserprog->unbind();
 
 
+
         for(int i = 0; i < obj.size(); i++)
         {
             for(int x = 0; x < projectile.size(); x++)
@@ -1296,7 +1271,7 @@ public:
                         float s1 = length(vec3(obj[i].M1[0]));
                         float s2 = length(vec3(obj[i].M1[1]));
                         float s3 = length(vec3(obj[i].M1[2]));
-                        for(int j = 0; j < 100; j++)
+                        for(int j = 0; j < 10; j++)
                         {
                             explosion ex;
                             ex.M1 = glm::translate(glm::mat4(1.0f), vec3(projectile[x][3][0]+ s1*(rand()%100)/100.0f - s1/2,
@@ -1311,19 +1286,19 @@ public:
                     explosions.emplace(explosions.begin(),e);
                     projectile.erase(projectile.begin() + x);
                 }
-                if(i !=3 && (boundingbox::collision(obj[i].bb1,obj[i].M1,obj[3].bb1,obj[3].M1)))
+                if(i !=2 && (boundingbox::collision(obj[i].bb1,obj[i].M1,obj[2].bb1,obj[2].M1)))
                 {
 
-                    obj[3].draw = false;
-                    float s1 = length(vec3(obj[3].M1[0]));
-                    float s2 = length(vec3(obj[3].M1[1]));
-                    float s3 = length(vec3(obj[3].M1[2]));
-                    for(int j = 0; j < 100; j++)
+                    obj[2].draw = false;
+                    float s1 = length(vec3(obj[2].M1[0]));
+                    float s2 = length(vec3(obj[2].M1[1]));
+                    float s3 = length(vec3(obj[2].M1[2]));
+                    for(int j = 0; j < 1; j++)
                     {
                         explosion ex;
-                        ex.M1 = glm::translate(glm::mat4(1.0f), vec3(obj[3].M1[3][0]+ s1*(rand()%100)/100.0f - s1/2,
-                                                                     obj[3].M1[3][1]+ s2*(rand()%100)/100.0f - s2/2,
-                                                                     obj[3].M1[3][2]+s3*(rand()%100)/100.0f - s3/2));
+                        ex.M1 = glm::translate(glm::mat4(1.0f), vec3(obj[2].M1[3][0]+ s1*(rand()%100)/100.0f - s1/2,
+                                                                     obj[2].M1[3][1]+ s2*(rand()%100)/100.0f - s2/2,
+                                                                     obj[2].M1[3][2]+s3*(rand()%100)/100.0f - s3/2));
                         ex.life = rand()%120;
                         explosions.emplace(explosions.begin(),ex);
                     }
@@ -1331,22 +1306,25 @@ public:
             }
 
         }
-        if(space ==1 && obj[3].draw)
+
+
+
+        if(space ==1 && obj[2].draw)
         {
             mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 2.0f));
-            projectile.push_back(obj[3].M1*T);
+            projectile.push_back(obj[2].M1*T);
             space =0;
         }
-        for(int i = 5; i< obj.size(); i++)
+        for(int i = 3; i< obj.size(); i++)
         {
-            if (count % 20 == 0) {
+            if (count % 100 == 0) {
                 mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f,0.0f, 2.0f));
                 S = glm::scale(glm::mat4(1.0f), glm::vec3(.02, .02, .02));
                 projectile.push_back( obj[i].M1*T * S );
 
             }
         }
-        if(count%10 == 0 && obj.size() < 6)
+        if(count%1000 == 0 && obj.size() < 6)
         {
 
             obj.push_back(object(enemyb));
@@ -1357,7 +1335,9 @@ public:
 
 
 
-
+//        auto stop = high_resolution_clock::now();
+//        auto duration = duration_cast<microseconds>(stop - start);
+//        cout <<"time: "<< duration.count() << endl;
         glBindVertexArray(0);
 	}
 
