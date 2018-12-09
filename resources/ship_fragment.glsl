@@ -15,7 +15,7 @@ vec3 lp=vec3(10,-20,-100);
 vec3 ld = normalize(vertex_pos - lp);
 float diffuse = dot(n,ld);
 
-color = texture(tex, vertex_tex)*.5;
+color = texture(tex, vertex_tex);
 //color *= diffuse*1.0;
 //color += vec4(.5,.5,.5,1);
 

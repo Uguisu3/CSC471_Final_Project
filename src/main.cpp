@@ -842,7 +842,6 @@ public:
 	draw
 	********/
 	void render() {
-       // auto start = high_resolution_clock::now();
         double frametime = get_last_elapsed_time();
 
         // Get current frame buffer size.
@@ -1257,7 +1256,6 @@ public:
         laserprog->unbind();
 
 
-
         for(int i = 0; i < obj.size(); i++)
         {
             for(int x = 0; x < projectile.size(); x++)
@@ -1324,7 +1322,7 @@ public:
 
             }
         }
-        if(count%1000 == 0 && obj.size() < 6)
+        if(count%100 == 0 && obj.size() < 6)
         {
 
             obj.push_back(object(enemyb));
@@ -1335,9 +1333,7 @@ public:
 
 
 
-//        auto stop = high_resolution_clock::now();
-//        auto duration = duration_cast<microseconds>(stop - start);
-//        cout <<"time: "<< duration.count() << endl;
+
         glBindVertexArray(0);
 	}
 
