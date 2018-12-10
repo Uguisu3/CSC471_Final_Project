@@ -5,8 +5,7 @@ uniform int xpos;
 uniform int ypos;
 uniform sampler2D tex;
 
-
 void main()
 {
-    color = texture(tex, + vec2( (vertex_tex.x + xpos)/8,(vertex_tex.y + ypos)/23));
+    color = texture(tex, + vec2( (vertex_tex.x + xpos)/13,(vertex_tex.y + ypos)/6));
 }

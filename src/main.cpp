@@ -141,6 +141,10 @@ public:
 
 };
 
+
+
+
+
 int boom = 120;
 
 struct explosion
@@ -311,6 +315,10 @@ public:
 camera mycam;
 
 
+
+
+
+
 class Application : public EventCallbacks
 {
 
@@ -321,11 +329,11 @@ public:
 	// Our shader program
 	std::shared_ptr<Program> prog;
 	std::shared_ptr<Program> skyprog;
-    std::shared_ptr<Program> cloudprog;
     std::shared_ptr<Program> laserprog;
     std::shared_ptr<Program> healthbarprog;
     std::shared_ptr<Program> shipprog;
     std::shared_ptr<Program> explosionprog;
+    std::shared_ptr<Program> textprog;
 
 	// Contains vertex information for OpenGL
 	GLuint VertexArrayID;
@@ -345,6 +353,188 @@ public:
     GLuint Texture9;
 
 	int space = 0;
+
+    void print(string str,vec3 pos, mat4 V)
+    {
+        glDepthFunc(GL_ALWAYS);
+        int character;
+        for(int i = 0; i < str.length(); i++)
+        {
+            switch(str[i]){
+
+                case 'A': character = 0;
+                break;
+                case 'B': character = 1;
+                    break;
+                case 'C': character = 2;
+                    break;
+                case 'D': character = 3;
+                    break;
+                case 'E': character = 4;
+                    break;
+                case 'F': character = 5;
+                    break;
+                case 'G': character = 6;
+                    break;
+                case 'H': character = 7;
+                    break;
+                case 'I': character = 8;
+                    break;
+                case 'J': character = 9;
+                    break;
+                case 'K': character = 10;
+                    break;
+                case 'L': character = 11;
+                    break;
+                case 'M': character = 12;
+                    break;
+                case 'N': character = 13;
+                    break;
+                case 'O': character = 14;
+                    break;
+                case 'P': character = 15;
+                    break;
+                case 'Q': character = 16;
+                    break;
+                case 'R': character = 17;
+                    break;
+                case 'S': character = 18;
+                    break;
+                case 'T': character = 19;
+                    break;
+                case 'U': character = 20;
+                    break;
+                case 'V': character = 21;
+                    break;
+                case 'W': character = 22;
+                    break;
+                case 'X': character = 23;
+                    break;
+                case 'Y': character = 24;
+                    break;
+                case 'Z': character = 25;
+                    break;
+                case 'a': character = 26;
+                    break;
+                case 'b': character = 27;
+                    break;
+                case 'c': character = 28;
+                    break;
+                case 'd': character = 29;
+                    break;
+                case 'e': character = 30;
+                    break;
+                case 'f': character = 31;
+                    break;
+                case 'g': character = 32;
+                    break;
+                case 'h': character = 33;
+                    break;
+                case 'i': character = 34;
+                    break;
+                case 'j': character = 35;
+                    break;
+                case 'k': character = 36;
+                    break;
+                case 'l': character = 37;
+                    break;
+                case 'm': character = 38;
+                    break;
+                case 'n': character = 39;
+                    break;
+                case 'o': character = 40;
+                    break;
+                case 'p': character = 41;
+                    break;
+                case 'q': character = 42;
+                    break;
+                case 'r': character = 43;
+                    break;
+                case 's': character = 44;
+                    break;
+                case 't': character = 45;
+                    break;
+                case 'u': character = 46;
+                    break;
+                case 'v': character = 47;
+                    break;
+                case 'w': character = 48;
+                    break;
+                case 'x': character = 49;
+                    break;
+                case 'y': character = 50;
+                    break;
+                case 'z': character = 51;
+                    break;
+                case '0': character = 52;
+                    break;
+                case '1': character = 53;
+                    break;
+                case '2': character = 54;
+                    break;
+                case '3': character = 55;
+                    break;
+                case '4': character = 56;
+                    break;
+                case '5': character = 57;
+                    break;
+                case '6': character = 58;
+                    break;
+                case '7': character = 59;
+                    break;
+                case '8': character = 60;
+                    break;
+                case '9': character = 61;
+                    break;
+                case '~': character = 62;
+                    break;
+                case '?': character = 63;
+                    break;
+                case '!': character = 64;
+                    break;
+                case '@': character = 65;
+                    break;
+                case '#': character = 66;
+                    break;
+                case '$': character = 67;
+                    break;
+                case '%': character = 68;
+                    break;
+                case '^': character = 69;
+                    break;
+                case '&': character = 70;
+                    break;
+                case '*': character = 71;
+                    break;
+                case '(': character = 72;
+                    break;
+                case ')': character = 73;
+                    break;
+                case ' ': character = 74;
+                    break;
+                case '+': character = 75;
+                    break;
+                case '{': character = 76;
+                    break;
+                case '}': character = 77;
+                    break;
+                default:  character = 74;
+                    break;
+            }
+            mat4 S = glm::scale(glm::mat4(1.0f),vec3(.3,.3,.3));
+            mat4 T = glm::translate(glm::mat4(1.0f), pos + vec3(i*.3,0,-10));
+            mat4 M = inverse(V)* T * S;
+            glUniformMatrix4fv(textprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+            glUniform1i(textprog->getUniform("xpos"), character % 13);
+            glUniform1i(textprog->getUniform("ypos"), character / 13);
+            glBindVertexArray(VertexArrayID);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferIDBox);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, Texture6);
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void *) 0);
+        }
+        glDepthFunc(GL_LESS);
+    }
 
 	void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 	{
@@ -487,9 +677,7 @@ public:
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-        //color
         glm::vec2 cube_tex[] = {
-                // front colors
                 glm::vec2(0.0, 1),
                 glm::vec2(1, 1),
                 glm::vec2(1, 0.0),
@@ -609,6 +797,24 @@ public:
         // Then bind the uniform samplers to texture units:
         glUseProgram(prog->pid);
         glUniform1i(Tex5Location, 0);
+
+        str1 = resourceDirectory + "/Babylon5_Font.png";
+        strcpy(filepath, str1.c_str());
+        data = stbi_load(filepath, &width, &height, &channels, 4);
+        glGenTextures(1, &Texture6);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, Texture6);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        GLuint Tex6Location = glGetUniformLocation(textprog->pid, "tex");
+        // Then bind the uniform samplers to texture units:
+        glUseProgram(textprog->pid);
+        glUniform1i(Tex6Location, 0);
 
 
         str1 = resourceDirectory + "/laser.png";
@@ -738,22 +944,6 @@ public:
 		skyprog->addAttribute("vertNor");
 		skyprog->addAttribute("vertTex");
 
-        cloudprog = std::make_shared<Program>();
-        cloudprog->setVerbose(true);
-        cloudprog->setShaderNames(resourceDirectory + "/general_vertex.glsl", resourceDirectory + "/Cloud_fragment.glsl");
-        if (!cloudprog->init())
-        {
-            std::cerr << "One or more shaders failed to compile... exiting!" << std::endl;
-            exit(1);
-        }
-        cloudprog->addUniform("P");
-        cloudprog->addUniform("V");
-        cloudprog->addUniform("M");
-        cloudprog->addUniform("campos");
-        cloudprog->addAttribute("vertPos");
-        cloudprog->addAttribute("vertNor");
-        cloudprog->addAttribute("vertTex");
-
         laserprog = std::make_shared<Program>();
         laserprog->setVerbose(true);
         laserprog->setShaderNames(resourceDirectory + "/general_vertex.glsl", resourceDirectory + "/Laser_fragment.glsl");
@@ -765,7 +955,6 @@ public:
         laserprog->addUniform("P");
         laserprog->addUniform("V");
         laserprog->addUniform("M");
-        laserprog->addUniform("campos");
         laserprog->addAttribute("vertPos");
         laserprog->addAttribute("vertNor");
         laserprog->addAttribute("vertTex");
@@ -784,7 +973,6 @@ public:
         healthbarprog->addUniform("M");
         healthbarprog->addUniform("xpos");
         healthbarprog->addUniform("ypos");
-        healthbarprog->addUniform("campos");
         healthbarprog->addAttribute("vertPos");
         healthbarprog->addAttribute("vertNor");
         healthbarprog->addAttribute("vertTex");
@@ -803,10 +991,27 @@ public:
         explosionprog->addUniform("M");
         explosionprog->addUniform("xpos");
         explosionprog->addUniform("ypos");
-        explosionprog->addUniform("campos");
         explosionprog->addAttribute("vertPos");
         explosionprog->addAttribute("vertNor");
         explosionprog->addAttribute("vertTex");
+
+
+        textprog = std::make_shared<Program>();
+        textprog->setVerbose(true);
+        textprog->setShaderNames(resourceDirectory + "/general_vertex.glsl", resourceDirectory + "/text_fragment.glsl");
+        if (!textprog->init())
+        {
+            std::cerr << "One or more shaders failed to compile... exiting!" << std::endl;
+            exit(1);
+        }
+        textprog->addUniform("P");
+        textprog->addUniform("V");
+        textprog->addUniform("M");
+        textprog->addUniform("xpos");
+        textprog->addUniform("ypos");
+        textprog->addAttribute("vertPos");
+        textprog->addAttribute("vertNor");
+        textprog->addAttribute("vertTex");
 
 	}
 
@@ -929,46 +1134,46 @@ public:
        static float fxangle= 0;
        static float fyangle = 0;
 
-        if ((mycam.e == 1 && mycam.f == 1 && mycam.j == 1 && mycam.i == 1)) {
+        if (mycam.e && mycam.f && mycam.j&& mycam.i ) {
             yang = 0.0f;
             xang = 0.0f;
-        } else if (mycam.e == 1 && mycam.f == 1 && mycam.j == 1) {
+        } else if (mycam.e && mycam.f && mycam.j) {
             yang = .25f;
             xang = -.25f;
-        } else if (mycam.e == 1 && mycam.f == 1 && mycam.i == 1) {
+        } else if (mycam.e && mycam.f && mycam.i) {
             yang = .25f;
             xang = .25f;
-        } else if (mycam.e == 1 && mycam.j == 1 && mycam.i == 1) {
+        } else if (mycam.e && mycam.j && mycam.i) {
             yang = -.25f;
             xang = .25f;
-        } else if (mycam.f == 1 && mycam.j == 1 && mycam.i == 1) {
+        } else if (mycam.f && mycam.j && mycam.i) {
             yang = -.25f;
             xang = -.25f;
-        } else if ((mycam.e == 1 && mycam.j == 1) || (mycam.f == 1 && mycam.i == 1)) {
+        } else if ((mycam.e && mycam.j) || (mycam.f && mycam.i)) {
             yang = 0.0f;
             xang = 0.0f;
-        } else if (mycam.e == 1 && mycam.f == 1) {
+        } else if (mycam.e && mycam.f) {
             xang = 0.0f;
             yang = .5f;
-        } else if (mycam.j == 1 && mycam.i == 1) {
+        } else if (mycam.j && mycam.i) {
             yang = -.5f;
             xang = 0.0f;
-        } else if (mycam.e == 1 && mycam.i == 1) {
+        } else if (mycam.e && mycam.i) {
             xang = .5f;
             yang = 0.0f;
-        } else if (mycam.j == 1 && mycam.f == 1) {
+        } else if (mycam.j && mycam.f) {
             xang = -.5f;
             yang = 0.0f;
-        } else if (mycam.f == 1) {
+        } else if (mycam.f) {
             yang = .15f;
             xang = -.15f;
-        } else if (mycam.e == 1) {
+        } else if (mycam.e) {
             yang = .15f;
             xang = .15f;
-        } else if (mycam.i == 1) {
+        } else if (mycam.i) {
             yang = -.15f;
             xang = .15f;
-        } else if (mycam.j == 1) {
+        } else if (mycam.j) {
             yang = -.15f;
             xang = -.15f;
         }
@@ -992,6 +1197,7 @@ public:
         if (obj[2].draw) {
             ship->draw(shipprog, false);
         }
+        static int destroyed = 10;
 
         srand(static_cast <unsigned> (time(0)));
         for(int i = 3; i< obj.size(); i++)
@@ -1016,12 +1222,9 @@ public:
                 enemy->draw(prog, false);
             } else {
                 obj.erase(obj.begin() +i);
+                destroyed--;
             }
         }
-
-
-
-
 
         shipprog->unbind();
 
@@ -1083,7 +1286,6 @@ public:
             glUniformMatrix4fv(explosionprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
             glUniform1i(explosionprog->getUniform("xpos"), life% 5);
             glUniform1i(explosionprog->getUniform("ypos"), life / 5);
-            glUniform3fv(explosionprog->getUniform("campos"), 1, &mycam.pos[0]);
             glBindVertexArray(VertexArrayID);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferIDBox);
             glActiveTexture(GL_TEXTURE0);
@@ -1121,7 +1323,6 @@ public:
             glUniformMatrix4fv(healthbarprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
             glUniform1i(healthbarprog->getUniform("xpos"), health % 8);
             glUniform1i(healthbarprog->getUniform("ypos"), health / 8);
-            glUniform3fv(healthbarprog->getUniform("campos"), 1, &mycam.pos[0]);
             glBindVertexArray(VertexArrayID);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferIDBox);
             glActiveTexture(GL_TEXTURE0);
@@ -1149,7 +1350,6 @@ public:
             glUniformMatrix4fv(healthbarprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
             glUniform1i(healthbarprog->getUniform("xpos"), health % 8);
             glUniform1i(healthbarprog->getUniform("ypos"), health / 8);
-            glUniform3fv(healthbarprog->getUniform("campos"), 1, &mycam.pos[0]);
             glBindVertexArray(VertexArrayID);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferIDBox);
             glActiveTexture(GL_TEXTURE0);
@@ -1164,7 +1364,7 @@ public:
 
 
         laserprog->bind();
-        if(mycam.e == 1)
+        if(mycam.e)
         {
             S = glm::scale(glm::mat4(1.0f), glm::vec3(.4, .4, .4));
             mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(0.71f, 0.30f, -0.4f));
@@ -1172,7 +1372,6 @@ public:
             glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-            glUniform3fv(laserprog->getUniform("campos"), 1, &mycam.pos[0]);
             glBindVertexArray(VertexArrayID);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferIDBox);
             glActiveTexture(GL_TEXTURE0);
@@ -1180,7 +1379,7 @@ public:
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void *) 0);
         }
 
-        if(mycam.f == 1)
+        if(mycam.f)
         {
             S = glm::scale(glm::mat4(1.0f), glm::vec3(.4, .4, .4));
             mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(0.71f, -0.30f, -0.4f));
@@ -1188,14 +1387,13 @@ public:
             glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-            glUniform3fv(laserprog->getUniform("campos"), 1, &mycam.pos[0]);
             glBindVertexArray(VertexArrayID);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferIDBox);
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, Texture9);
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void *) 0);
         }
-        if(mycam.j == 1)
+        if(mycam.j)
         {
             S = glm::scale(glm::mat4(1.0f), glm::vec3(.4, .4, .4));
             mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(-0.71f, -0.30f, -0.4f));
@@ -1203,7 +1401,6 @@ public:
             glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-            glUniform3fv(laserprog->getUniform("campos"), 1, &mycam.pos[0]);
             glBindVertexArray(VertexArrayID);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferIDBox);
             glActiveTexture(GL_TEXTURE0);
@@ -1211,7 +1408,7 @@ public:
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void *) 0);
         }
 
-        if(mycam.i == 1)
+        if(mycam.i)
         {
             S = glm::scale(glm::mat4(1.0f), glm::vec3(.4, .4, .4));
             mat4 Trans = glm::translate(glm::mat4(1.0f), glm::vec3(-0.71f, 0.30f, -0.4f));
@@ -1219,7 +1416,6 @@ public:
             glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-            glUniform3fv(laserprog->getUniform("campos"), 1, &mycam.pos[0]);
             glBindVertexArray(VertexArrayID);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferIDBox);
             glActiveTexture(GL_TEXTURE0);
@@ -1241,7 +1437,6 @@ public:
             glUniformMatrix4fv(laserprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
             glUniformMatrix4fv(laserprog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-            glUniform3fv(laserprog->getUniform("campos"), 1, &mycam.pos[0]);
             glBindVertexArray(VertexArrayID);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferIDBox);
             glActiveTexture(GL_TEXTURE0);
@@ -1255,6 +1450,12 @@ public:
 
         laserprog->unbind();
 
+        textprog->bind();
+        glUniformMatrix4fv(textprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
+        glUniformMatrix4fv(textprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
+
+        print("Shadow Vessels : " + to_string(destroyed),vec3(1,4,0),V);
+        textprog->unbind();
 
         for(int i = 0; i < obj.size(); i++)
         {
@@ -1331,8 +1532,25 @@ public:
             obj[obj.size()-1].M1 = glm::translate(glm::mat4(1), vec3(rand()%1000 - 500,rand()%1000 - 500,rand()%1000 - 500));
         }
 
+        if(destroyed == 0)
+        {
+            textprog->bind();
+            glUniformMatrix4fv(textprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
+            glUniformMatrix4fv(textprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
 
+            print("YOU WIN",vec3((-.3*7)/2.0,0,0),V);
+            textprog->unbind();
+        }
 
+        if(!obj[1].draw)
+        {
+            textprog->bind();
+            glUniformMatrix4fv(textprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
+            glUniformMatrix4fv(textprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
+
+            print("YOU LOSE",vec3((-.3*8)/2.0,0,0),V);
+            textprog->unbind();
+        }
 
         glBindVertexArray(0);
 	}
