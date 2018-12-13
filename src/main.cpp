@@ -43,6 +43,7 @@ public:
         norms[5] = cross(b1t.points[5]-b1t.points[4],b1t.points[6]-b1t.points[4]);
         float d;
         vec3 p;
+        bool collide  = false;
         for(int j=0; j < 8; j++)
         {
             p = b2t.points[j];
@@ -55,10 +56,8 @@ public:
                     return false;
                 }
             }
+            return true;
         }
-
-        return true;
-
     }
 
     static bool collisionpoint(boundingbox b1, mat4 M1, vec3 p)
@@ -195,14 +194,13 @@ class camera
 {
 public:
 	glm::vec3 pos;//, rot;
-	glm::mat4 rot, rotinv;
+	glm::mat4 rot;
 	int e, i, j, f;
 	float xangle,yangle;
 	camera()
 	{
 		e = j = i = f = 0;
 		rot = glm::rotate(glm::mat4(1), 0.0f, glm::vec3(0, 1, 0));
-        rotinv = glm::rotate(glm::mat4(1), 0.0f, glm::vec3(0, 1, 0));
 		pos = glm::vec3(0, 0, -5);
 	}
 	glm::mat4 process(double ftime)
@@ -303,7 +301,6 @@ public:
         rot = Ry * Rx * rot;
         Ry = glm::rotate(glm::mat4(1), -yangle, glm::vec3(0, 1, 0));
         Rx = glm::rotate(glm::mat4(1), -xangle, glm::vec3(1, 0, 0));
-        rotinv = Ry*Rx * rotinv;
 		glm::vec4 dir = glm::vec4(0, 0, 50 * speed,1);
 		dir = dir*rot;
 		pos += glm::vec3(dir.x, dir.y, dir.z);
@@ -669,7 +666,7 @@ public:
                 0.0, 0.0, 1.0,
                 0.0, 0.0, 1.0,
 
-        };
+         };
         glGenBuffers(1, &VertexNormDBox);
         //set the current state to focus on our vertex buffer
         glBindBuffer(GL_ARRAY_BUFFER, VertexNormDBox);
@@ -1207,7 +1204,7 @@ public:
                 TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
             }
 
-            S = glm::scale(glm::mat4(1.0f), glm::vec3(8, 8, 8));
+            S = glm::scale(glm::mat4(1.0f), glm::vec3(15, 15, 15));
             mat4 Vx = transpose(V);
             mat4 Vi = lookat(vec3(obj[1].M1[3]), vec3(obj[i].M1[3]));
             M = Vi * TransZ  * S;
@@ -1303,7 +1300,7 @@ public:
         explosionprog->unbind();
 
 
-
+        glDepthFunc(GL_ALWAYS);
         healthbarprog->bind();
         if (obj[1].draw) {
             TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(4.0f +babM[3][0], 20.0f +babM[3][1], -5.0f+babM[3][2]));
@@ -1361,7 +1358,7 @@ public:
 
 
         healthbarprog->unbind();
-
+        glDepthFunc(GL_LESS);
 
         laserprog->bind();
         if(mycam.e)
@@ -1424,9 +1421,8 @@ public:
         }
 
 
-
-        for (int i = 0; i < projectile.size(); i++) {
-            mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f,8.0f ));
+        for (int i = 0; i < projectile.size() && destroyed && obj[1].draw; i++) {
+            mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f,10.0f ));
             mat4 Vi = glm::transpose(V);
             Vi[0][3] = 0;
             Vi[1][3] = 0;
@@ -1454,10 +1450,10 @@ public:
         glUniformMatrix4fv(textprog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
         glUniformMatrix4fv(textprog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
 
-        print("Shadow Vessels : " + to_string(destroyed),vec3(1,4,0),V);
+        print("Shadow Vessels : " + to_string(destroyed),vec3(2.3,4,0),V);
         textprog->unbind();
 
-        for(int i = 0; i < obj.size(); i++)
+        for(int i = 0; i < obj.size()  && obj[1].draw && destroyed; i++)
         {
             for(int x = 0; x < projectile.size(); x++)
             {
@@ -1470,10 +1466,10 @@ public:
                         float s1 = length(vec3(obj[i].M1[0]));
                         float s2 = length(vec3(obj[i].M1[1]));
                         float s3 = length(vec3(obj[i].M1[2]));
-                        for(int j = 0; j < 10; j++)
+                        for(int j = 0; j < ((s1+s2+s3)); j++)
                         {
                             explosion ex;
-                            ex.M1 = glm::translate(glm::mat4(1.0f), vec3(projectile[x][3][0]+ s1*(rand()%100)/100.0f - s1/2,
+                            ex.M1 =  glm::translate(glm::mat4(1.0f), vec3(projectile[x][3][0]+ s1*(rand()%100)/100.0f - s1/2,
                                     projectile[x][3][1]+ s2*(rand()%100)/100.0f - s2/2,projectile[x][3][2]+s3*(rand()%100)/100.0f - s3/2));
                             ex.life = rand()%boom*1.2;
                             explosions.emplace(explosions.begin(),ex);
@@ -1510,22 +1506,22 @@ public:
 
         if(space ==1 && obj[2].draw)
         {
-            mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 2.0f));
+            mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 3.0f));
             projectile.push_back(obj[2].M1*T);
             space =0;
         }
         for(int i = 3; i< obj.size(); i++)
         {
             if (count % 100 == 0) {
-                mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f,0.0f, 2.0f));
+                mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f,0.0f, 3.0f));
                 S = glm::scale(glm::mat4(1.0f), glm::vec3(.02, .02, .02));
                 projectile.push_back( obj[i].M1*T * S );
 
             }
         }
+
         if(count%100 == 0 && obj.size() < 6)
         {
-
             obj.push_back(object(enemyb));
             obj[obj.size()-1].health = 10;
             obj[obj.size()-1].healthstart = 10;
