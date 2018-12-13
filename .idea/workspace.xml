@@ -11,14 +11,12 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b89b7e32-7955-48ba-aadb-619938f7275c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/Babylon5_Font.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/text_fragment.glsl" afterDir="false" />
+    <list default="true" id="b89b7e32-7955-48ba-aadb-619938f7275c" name="Default Changelist" comment="-">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Cloud_fragment.glsl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/HealthBar_fragment.glsl" beforeDir="false" afterPath="$PROJECT_DIR$/resources/HealthBar_fragment.glsl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/explosion_fragment.glsl" beforeDir="false" afterPath="$PROJECT_DIR$/resources/explosion_fragment.glsl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/2k_stars_milky_way.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/4k_stars_milky_way.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/shader_fragment.glsl" beforeDir="false" afterPath="$PROJECT_DIR$/resources/shader_fragment.glsl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/ship_fragment.glsl" beforeDir="false" afterPath="$PROJECT_DIR$/resources/ship_fragment.glsl" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -44,11 +42,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/ship_fragment.glsl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="2" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
+            <state relative-caret-position="375">
+              <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -89,21 +87,25 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
-              <caret line="1550" column="40" selection-start-line="1550" selection-start-column="40" selection-end-line="1550" selection-end-column="40" />
+            <state relative-caret-position="-5890">
+              <caret line="744" column="36" lean-forward="true" selection-start-line="744" selection-start-column="36" selection-end-line="744" selection-end-column="36" />
               <folding>
                 <element signature="e#52#71#0" expanded="true" />
                 <element signature="e#341#372#0" expanded="true" />
                 <element signature="e#504#4638#1" />
-                <element signature="e#5022#5219#0" />
-                <element signature="e#5221#5460#1" />
-                <element signature="e#5464#8284#1" />
-                <element signature="e#21692#26675#0" />
-                <element signature="e#26679#27663#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/shader_fragment.glsl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="18" selection-start-line="18" selection-end-line="18" />
             </state>
           </provider>
         </entry>
@@ -116,7 +118,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file:///usr/include/glm/detail/type_vec3.inl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
+            <state relative-caret-position="1230">
               <caret line="82" selection-start-line="82" selection-end-line="82" />
             </state>
           </provider>
@@ -126,7 +128,7 @@
         <entry file="file://$PROJECT_DIR$/resources/text_fragment.glsl">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="135">
-              <caret line="9" column="56" lean-forward="true" selection-start-line="9" selection-start-column="56" selection-end-line="9" selection-end-column="56" />
+              <caret line="9" column="56" selection-start-line="9" selection-start-column="56" selection-end-line="9" selection-end-column="56" />
             </state>
           </provider>
         </entry>
@@ -142,8 +144,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>w =</find>
-      <find>tri</find>
       <find>.125</find>
       <find>laser</find>
       <find>crab</find>
@@ -172,6 +172,8 @@
       <find>Babylon</find>
       <find>textprog</find>
       <find>print</find>
+      <find>babylon</find>
+      <find>2k</find>
     </findStrings>
     <replaceStrings>
       <replace>ang</replace>
@@ -180,7 +182,7 @@
     </replaceStrings>
   </component>
   <component name="Git.Settings">
-    <option name="UPDATE_TYPE" value="MERGE" />
+    <option name="UPDATE_TYPE" value="REBASE" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
@@ -197,21 +199,20 @@
         <option value="$PROJECT_DIR$/src/WindowManager.cpp" />
         <option value="$PROJECT_DIR$/resources/Laser_fragment.glsl" />
         <option value="$PROJECT_DIR$/src/Shape.cpp" />
-        <option value="$PROJECT_DIR$/resources/shader_fragment.glsl" />
-        <option value="$PROJECT_DIR$/resources/ship_fragment.glsl" />
         <option value="$PROJECT_DIR$/resources/general_vertex.glsl" />
         <option value="$PROJECT_DIR$/resources/HealthBar_fragment.glsl" />
         <option value="$PROJECT_DIR$/resources/explosion_fragment.glsl" />
         <option value="$PROJECT_DIR$/resources/text_fragment.glsl" />
         <option value="$PROJECT_DIR$/src/main.cpp" />
+        <option value="$PROJECT_DIR$/resources/shader_fragment.glsl" />
+        <option value="$PROJECT_DIR$/resources/ship_fragment.glsl" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1920" />
     <option name="y" value="-1" />
     <option name="width" value="1920" />
-    <option name="height" value="1080" />
+    <option name="height" value="1053" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -219,7 +220,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -247,6 +247,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -348,7 +349,8 @@
       <workItem from="1544317970586" duration="197000" />
       <workItem from="1544318181989" duration="16038000" />
       <workItem from="1544371842285" duration="437000" />
-      <workItem from="1544392552015" duration="7124000" />
+      <workItem from="1544392552015" duration="10182000" />
+      <workItem from="1544683346010" duration="1943000" />
     </task>
     <task id="LOCAL-00001" summary="ignoring files">
       <created>1543548290242</created>
@@ -392,11 +394,18 @@
       <option name="project" value="LOCAL" />
       <updated>1544337901950</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="added print function to display text on the screen for goal and win lose text">
+      <created>1544418237808</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1544418237813</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="188135000" />
+    <option name="totallyTimeSpent" value="193136000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -408,20 +417,21 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1920" y="-1" width="1920" height="1080" extended-state="6" />
+    <frame x="0" y="-1" width="1920" height="1053" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1826411" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18423855" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32952183" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32744282" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3272727" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.43555093" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32941177" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Messages" order="8" weight="0.32640332" />
+      <window_info anchor="bottom" id="Messages" order="8" weight="0.3262032" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32941177" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.32941177" />
@@ -465,7 +475,8 @@
     <MESSAGE value="Explosions when life reaches 0 for an object&#10;Explosions on laser fire collision&#10;starfury restarts when it collides with something" />
     <MESSAGE value="minor adjustments" />
     <MESSAGE value="added print function to display text on the screen for goal and win lose text" />
-    <option name="LAST_COMMIT_MESSAGE" value="added print function to display text on the screen for goal and win lose text" />
+    <MESSAGE value="-" />
+    <option name="LAST_COMMIT_MESSAGE" value="-" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/resources/2k_earth_specular_map.tif" />
@@ -539,13 +550,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shader_fragment.glsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/shader_vertex.glsl">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
@@ -567,6 +571,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/Cloud_fragment.glsl" />
+    <entry file="file://$PROJECT_DIR$/resources/HealthBar_fragment.glsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Shape.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1035">
@@ -574,31 +586,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/Cloud_fragment.glsl">
+    <entry file="file://$PROJECT_DIR$/resources/Babylon5_Font.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file:///usr/include/glm/detail/type_vec3.inl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="20" lean-forward="true" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="20" />
+        <state relative-caret-position="1230">
+          <caret line="82" selection-start-line="82" selection-end-line="82" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/ship_fragment.glsl">
+    <entry file="file://$PROJECT_DIR$/resources/text_fragment.glsl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="2" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/explosion_fragment.glsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/HealthBar_fragment.glsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="7" />
+        <state relative-caret-position="135">
+          <caret line="9" column="56" selection-start-line="9" selection-start-column="56" selection-end-line="9" selection-end-column="56" />
         </state>
       </provider>
     </entry>
@@ -609,37 +610,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/include/glm/detail/type_vec3.inl">
+    <entry file="file://$PROJECT_DIR$/resources/explosion_fragment.glsl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="82" selection-start-line="82" selection-end-line="82" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/Babylon5_Font.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/text_fragment.glsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="56" lean-forward="true" selection-start-line="9" selection-start-column="56" selection-end-line="9" selection-end-column="56" />
+        <state relative-caret-position="105">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="1550" column="40" selection-start-line="1550" selection-start-column="40" selection-end-line="1550" selection-end-column="40" />
+        <state relative-caret-position="-5890">
+          <caret line="744" column="36" lean-forward="true" selection-start-line="744" selection-start-column="36" selection-end-line="744" selection-end-column="36" />
           <folding>
             <element signature="e#52#71#0" expanded="true" />
             <element signature="e#341#372#0" expanded="true" />
             <element signature="e#504#4638#1" />
-            <element signature="e#5022#5219#0" />
-            <element signature="e#5221#5460#1" />
-            <element signature="e#5464#8284#1" />
-            <element signature="e#21692#26675#0" />
-            <element signature="e#26679#27663#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/shader_fragment.glsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/ship_fragment.glsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
         </state>
       </provider>
     </entry>
