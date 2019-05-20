@@ -1,5 +1,12 @@
 Final Project -Installing prerequisite software
 ========================================
+short video of gameplay: 
+https://youtu.be/vZ6yH5FWToo
+
+Resources : 
+https://www.thingiverse.com/thing:12730
+https://www.thingiverse.com/thing:40536
+https://sketchfab.com/models/13406d8cad484c4ba7e6926f6d80a978
 
 Lab machines
 ------------
