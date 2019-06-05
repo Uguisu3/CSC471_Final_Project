@@ -1,4 +1,4 @@
-Final Project
+CSC 471 Final Project Babylon 5 Defender
 ========================================
 short video of gameplay: 
 https://youtu.be/vZ6yH5FWToo
