@@ -1,4 +1,4 @@
-Final Project -Installing prerequisite software
+Final Project
 ========================================
 short video of gameplay: 
 https://youtu.be/vZ6yH5FWToo
@@ -8,16 +8,6 @@ https://www.thingiverse.com/thing:12730
 https://www.thingiverse.com/thing:40536
 https://sketchfab.com/models/13406d8cad484c4ba7e6926f6d80a978
 
-Lab machines
-------------
-
-The required development applications should already be installed. For the
-machines in 20-127, you can optionally use the Intel C++ compiler by running
-
-	> source /opt/intel/bin/compilervars.sh intel64
-
-You will then have access to `icc` (Intel C Compiler) and `icpc` (Intel C++
-Compiler).
 
 Ubuntu Linux
 ------------
@@ -60,21 +50,6 @@ Make sure the command `cmake` works from the command prompt.
 
 **Install Eigen, GLFW, and GLEW**
 =================================
-
-Lab machines
-------------
-
-For compatibility issues with the old version of g++ installed on the lab
-machines, we will be using these files on my home directory. Download these
-and extract them somewhere (e.g., `~/lib/`).
-
-- Eigen: `/home/sueda/lib/eigen-3.2.6.zip`
-- GLFW: `/home/sueda/lib/glfw-3.1.2.zip`
-- GLEW: `/home/sueda/lib/glew-1.13.0.tgz`
-
-All platforms except lab machines
----------------------------------
-
 For all other platforms, you can download the latest versions from the web.
 For each of these libraries, download and extract them somewhere (e.g.,
 `~/lib`).
